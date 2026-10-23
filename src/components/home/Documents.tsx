@@ -3,96 +3,103 @@
 import { Reveal } from "@/components/motion/Reveal";
 import { useCallback, useRef, useState, type KeyboardEvent } from "react";
 
-const TABS = [
-  {
-    id: "docTabRera",
-    panelId: "docPanelRera",
-    dataTab: "rera",
-    label: "UP RERA Certificate",
-  },
-  {
-    id: "docTabGda",
-    panelId: "docPanelGda",
-    dataTab: "gda",
-    label: "GDA Layout Plan",
-  },
-  {
-    id: "docTabBba",
-    panelId: "docPanelBba",
-    dataTab: "bba",
-    label: "Sample BBA",
-  },
-  {
-    id: "docTabBrochure",
-    panelId: "docPanelBrochure",
-    dataTab: "brochure",
-    label: "Project Brochure",
-  },
-] as const;
+export type DocumentView = {
+  key: string;
+  tabLabel: string;
+  name: string;
+  order: number;
+  meta: { label: string; value: string; href?: string }[];
+  noteHtml: string;
+  actionLabel: string;
+  actionHref?: string;
+  actionPending?: boolean;
+};
 
-type TabKey = (typeof TABS)[number]["dataTab"];
+type DocumentsProps = {
+  documents: DocumentView[];
+  kicker?: string;
+  titleHtml?: string;
+  lead?: string;
+  reraQr?: {
+    image: string;
+    label: string;
+    noteHtml: string;
+  };
+};
 
-export function Documents() {
-  const [activeTab, setActiveTab] = useState<TabKey>("rera");
+const DEFAULT_RERA_QR = {
+  image: "/assets/documents/up-rera-qr.svg",
+  label: "UP RERA QR",
+  noteHtml: `Brochure QR pending. Verify registration <a href="https://www.up-rera.in/" rel="noopener noreferrer">UPRERAPRJ245925/09/2026</a> on <a href="https://www.up-rera.in/" rel="noopener noreferrer">up-rera.in</a>.`,
+};
+
+export function Documents({
+  documents,
+  kicker = "Document Center",
+  titleHtml = 'Approvals and <span class="text-gold">paperwork</span>',
+  lead = "Official records for Madhavam, supplied by Earth Waves Developers.",
+  reraQr = DEFAULT_RERA_QR,
+}: DocumentsProps) {
+  const sorted = [...documents].sort((a, b) => a.order - b.order);
+  const [activeTab, setActiveTab] = useState(sorted[0]?.key ?? "rera");
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const activateTab = useCallback((dataTab: TabKey) => {
-    setActiveTab(dataTab);
+  const activateTab = useCallback((key: string) => {
+    setActiveTab(key);
   }, []);
 
   const onTabKeyDown = (index: number, event: KeyboardEvent<HTMLButtonElement>) => {
     let next = -1;
     if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-      next = (index + 1) % TABS.length;
+      next = (index + 1) % sorted.length;
     }
     if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-      next = (index - 1 + TABS.length) % TABS.length;
+      next = (index - 1 + sorted.length) % sorted.length;
     }
     if (event.key === "Home") next = 0;
-    if (event.key === "End") next = TABS.length - 1;
+    if (event.key === "End") next = sorted.length - 1;
     if (next < 0) return;
     event.preventDefault();
     tabRefs.current[next]?.focus();
-    activateTab(TABS[next].dataTab);
+    activateTab(sorted[next].key);
   };
 
   return (
     <section className="paper band documents" id="documents" aria-labelledby="documentsTitle">
       <div className="sheet">
         <Reveal className="documents-head">
-          <p className="documents-kicker">Document Center</p>
-          <h2 id="documentsTitle">
-            Approvals and <span className="text-gold">paperwork</span>
-          </h2>
+          <p className="documents-kicker">{kicker}</p>
+          <h2
+            id="documentsTitle"
+            dangerouslySetInnerHTML={{ __html: titleHtml }}
+          />
 
-          <p className="lead-copy">
-            Official records for Madhavam, supplied by Earth Waves Developers.
-          </p>
+          <p className="lead-copy">{lead}</p>
           <div
             className="documents-tabs"
             role="tablist"
             aria-label="Project documents"
           >
-            {TABS.map((tab, index) => {
-              const on = activeTab === tab.dataTab;
+            {sorted.map((tab, index) => {
+              const on = activeTab === tab.key;
               return (
                 <button
-                  key={tab.dataTab}
+                  key={tab.key}
                   ref={(el) => {
                     tabRefs.current[index] = el;
                   }}
                   type="button"
                   className={`documents-tab${on ? " is-active" : ""}`}
                   role="tab"
-                  id={tab.id}
+                  id={`docTab-${tab.key}`}
                   aria-selected={on}
-                  aria-controls={tab.panelId}
-                  data-doc-tab={tab.dataTab}
+                  aria-controls={`docPanel-${tab.key}`}
+                  data-doc-tab={tab.key}
                   tabIndex={on ? 0 : -1}
-                  onClick={() => activateTab(tab.dataTab)}
+                  onClick={() => activateTab(tab.key)}
                   onKeyDown={(event) => onTabKeyDown(index, event)}
                 >
-                  {tab.label}
+                  {tab.tabLabel}
                 </button>
               );
             })}
@@ -101,159 +108,74 @@ export function Documents() {
 
         <Reveal className="documents-body">
           <div className="documents-panels">
-            <div
-              className={`documents-panel${activeTab === "rera" ? " is-active" : ""}`}
-              role="tabpanel"
-              id="docPanelRera"
-              aria-labelledby="docTabRera"
-              hidden={activeTab !== "rera"}
-            >
-              <article className="document-card">
-                <h3 className="document-name">UP RERA Registration Certificate</h3>
-                <dl className="document-meta">
-                  <div>
-                    <dt>Registration</dt>
-                    <dd>
-                      <a href="https://www.up-rera.in/" rel="noopener noreferrer">
-                        UPRERAPRJ245925/09/2026
-                      </a>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Dated</dt>
-                    <dd>01/09/2026</dd>
-                  </div>
-                </dl>
-                <p className="document-note">
-                  Verify live status at{" "}
-                  <a href="https://www.up-rera.in/" rel="noopener noreferrer">
-                    up-rera.in
-                  </a>
-                  .
-                </p>
-                <span className="document-action is-pending" aria-disabled="true">
-                  Available on request
-                </span>
-              </article>
-            </div>
-
-            <div
-              className={`documents-panel${activeTab === "gda" ? " is-active" : ""}`}
-              role="tabpanel"
-              id="docPanelGda"
-              aria-labelledby="docTabGda"
-              hidden={activeTab !== "gda"}
-            >
-              <article className="document-card">
-                <h3 className="document-name">GDA Approved Layout Plan</h3>
-                <dl className="document-meta">
-                  <div>
-                    <dt>Approval</dt>
-                    <dd>To be confirmed</dd>
-                  </div>
-                  <div>
-                    <dt>Dated</dt>
-                    <dd>To be confirmed</dd>
-                  </div>
-                </dl>
-                <p className="document-note">
-                  Ghaziabad Development Authority layout approval for Madhavam.
-                  Number and date will be published when Earth Waves Developers
-                  supplies the file.
-                </p>
-                <span className="document-action is-pending" aria-disabled="true">
-                  Available on request
-                </span>
-              </article>
-            </div>
-
-            <div
-              className={`documents-panel${activeTab === "bba" ? " is-active" : ""}`}
-              role="tabpanel"
-              id="docPanelBba"
-              aria-labelledby="docTabBba"
-              hidden={activeTab !== "bba"}
-            >
-              <article className="document-card">
-                <h3 className="document-name">Sample Builder-Buyer Agreement</h3>
-                <dl className="document-meta">
-                  <div>
-                    <dt>Type</dt>
-                    <dd>Specimen only</dd>
-                  </div>
-                  <div>
-                    <dt>Dated</dt>
-                    <dd>To be confirmed</dd>
-                  </div>
-                </dl>
-                <p className="document-note">
-                  A specimen for reference. It is not an offer to sell and does
-                  not form a binding agreement unless executed and registered.
-                </p>
-                <span className="document-action is-pending" aria-disabled="true">
-                  Available on request
-                </span>
-              </article>
-            </div>
-
-            <div
-              className={`documents-panel${activeTab === "brochure" ? " is-active" : ""}`}
-              role="tabpanel"
-              id="docPanelBrochure"
-              aria-labelledby="docTabBrochure"
-              hidden={activeTab !== "brochure"}
-            >
-              <article className="document-card">
-                <h3 className="document-name">Project Brochure</h3>
-                <dl className="document-meta">
-                  <div>
-                    <dt>Document</dt>
-                    <dd>Madhavam brochure</dd>
-                  </div>
-                  <div>
-                    <dt>Dated</dt>
-                    <dd>01/09/2026</dd>
-                  </div>
-                </dl>
-                <p className="document-note">
-                  Official brochure for Madhavam by Earth Waves Developers. Scale,
-                  amenities, and registration details as published by the
-                  developer.
-                </p>
-                <a
-                  className="document-action"
-                  href="/assets/documents/madhavam-brochure.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
+            {sorted.map((doc) => {
+              const on = activeTab === doc.key;
+              return (
+                <div
+                  key={doc.key}
+                  className={`documents-panel${on ? " is-active" : ""}`}
+                  role="tabpanel"
+                  id={`docPanel-${doc.key}`}
+                  aria-labelledby={`docTab-${doc.key}`}
+                  hidden={!on}
                 >
-                  Download PDF
-                </a>
-              </article>
-            </div>
+                  <article className="document-card">
+                    <h3 className="document-name">{doc.name}</h3>
+                    <dl className="document-meta">
+                      {doc.meta.map((m) => (
+                        <div key={`${doc.key}-${m.label}`}>
+                          <dt>{m.label}</dt>
+                          <dd>
+                            {m.href ? (
+                              <a href={m.href} rel="noopener noreferrer">
+                                {m.value}
+                              </a>
+                            ) : (
+                              m.value
+                            )}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                    <p
+                      className="document-note"
+                      dangerouslySetInnerHTML={{ __html: doc.noteHtml }}
+                    />
+                    {doc.actionPending || !doc.actionHref ? (
+                      <span className="document-action is-pending" aria-disabled="true">
+                        {doc.actionLabel}
+                      </span>
+                    ) : (
+                      <a
+                        className="document-action"
+                        href={doc.actionHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {doc.actionLabel}
+                      </a>
+                    )}
+                  </article>
+                </div>
+              );
+            })}
           </div>
 
           <aside className="documents-rera is-pending" aria-label="UP RERA verification">
             <div className="documents-rera-qr" aria-hidden="true">
               <img
-                src="/assets/documents/up-rera-qr.svg"
+                src={reraQr.image}
                 alt=""
                 width={128}
                 height={128}
                 loading="lazy"
               />
             </div>
-            <p className="documents-rera-label">UP RERA QR</p>
-            <p className="documents-rera-note">
-              Brochure QR pending. Verify registration{" "}
-              <a href="https://www.up-rera.in/" rel="noopener noreferrer">
-                UPRERAPRJ245925/09/2026
-              </a>{" "}
-              on{" "}
-              <a href="https://www.up-rera.in/" rel="noopener noreferrer">
-                up-rera.in
-              </a>
-              .
-            </p>
+            <p className="documents-rera-label">{reraQr.label}</p>
+            <p
+              className="documents-rera-note"
+              dangerouslySetInnerHTML={{ __html: reraQr.noteHtml }}
+            />
           </aside>
         </Reveal>
       </div>

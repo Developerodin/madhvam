@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { SITE } from "@/lib/site";
+import type { PublicSiteSettings } from "@/lib/content/getters";
 
 type FooterProps = {
   topHref?: string;
+  site: PublicSiteSettings;
 };
 
-export function Footer({ topHref = "#top" }: FooterProps) {
+export function Footer({ topHref = "#top", site }: FooterProps) {
   return (
     <footer className="site-footer" id="footer">
       <div className="footer-main">
@@ -13,7 +14,7 @@ export function Footer({ topHref = "#top" }: FooterProps) {
           <Link className="footer-logo" href="/#top">
             <picture>
               <img
-                src={SITE.logoLight}
+                src={site.logoLight}
                 alt="Radhe Radhe Madhavam"
                 width={1547}
                 height={612}
@@ -32,7 +33,7 @@ export function Footer({ topHref = "#top" }: FooterProps) {
             </span>
             <div className="footer-contact-text">
               <span className="footer-contact-label">Corporate Office</span>
-              <span className="footer-contact-value">{SITE.corporateAddress}</span>
+              <span className="footer-contact-value">{site.corporateAddress}</span>
             </div>
           </div>
           <div className="footer-contact">
@@ -41,7 +42,7 @@ export function Footer({ topHref = "#top" }: FooterProps) {
             </span>
             <div className="footer-contact-text">
               <span className="footer-contact-label">Site Address</span>
-              <span className="footer-contact-value">{SITE.siteAddress}</span>
+              <span className="footer-contact-value">{site.siteAddress}</span>
             </div>
           </div>
           <div className="footer-contact">
@@ -50,8 +51,8 @@ export function Footer({ topHref = "#top" }: FooterProps) {
             </span>
             <div className="footer-contact-text">
               <span className="footer-contact-label">Email</span>
-              <a className="footer-contact-value" href={`mailto:${SITE.enquiryEmail}`}>
-                {SITE.enquiryEmail}
+              <a className="footer-contact-value" href={`mailto:${site.enquiryEmail}`}>
+                {site.enquiryEmail}
               </a>
             </div>
           </div>
@@ -63,7 +64,7 @@ export function Footer({ topHref = "#top" }: FooterProps) {
               <span className="footer-contact-label">Website</span>
               <a
                 className="footer-contact-value"
-                href={SITE.companyUrl}
+                href={site.companyUrl}
                 rel="noopener noreferrer"
               >
                 www.ewdevelopers.com
@@ -114,12 +115,12 @@ export function Footer({ topHref = "#top" }: FooterProps) {
 
       <div className="footer-bar">
         <p className="footer-rera">
-          <span>Project RERA No. {SITE.rera}</span>
+          <span>Project RERA No. {site.rera}</span>
           <span className="footer-rera-sep" aria-hidden="true">
             {" "}
             ·{" "}
           </span>
-          <a href={SITE.reraUrl} rel="noopener noreferrer">
+          <a href={site.reraUrl} rel="noopener noreferrer">
             www.up-rera.in
           </a>
         </p>

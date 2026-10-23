@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { HOME_NAV, SITE } from "@/lib/site";
+import { useSite } from "@/lib/site-context";
 
 type HeaderProps = {
   solid?: boolean;
 };
 
 export function Header({ solid }: HeaderProps) {
+  const site = useSite();
   const pathname = usePathname();
   const isHome = pathname === "/";
   const forceSolid = solid ?? !isHome;
@@ -17,21 +18,21 @@ export function Header({ solid }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [logoSrc, setLogoSrc] = useState(
-    forceSolid ? SITE.logoDark : SITE.logoLight,
+    forceSolid ? site.logoDark : site.logoLight,
   );
 
   const needsDark = forceSolid || scrolled || menuOpen;
 
   useEffect(() => {
-    setLogoSrc(needsDark ? SITE.logoDark : SITE.logoLight);
-  }, [needsDark]);
+    setLogoSrc(needsDark ? site.logoDark : site.logoLight);
+  }, [needsDark, site.logoDark, site.logoLight]);
 
   useEffect(() => {
     const dark = new Image();
-    dark.src = SITE.logoDark;
+    dark.src = site.logoDark;
     const light = new Image();
-    light.src = SITE.logoLight;
-  }, []);
+    light.src = site.logoLight;
+  }, [site.logoDark, site.logoLight]);
 
   useEffect(() => {
     function onScroll() {
@@ -76,11 +77,11 @@ export function Header({ solid }: HeaderProps) {
                 width={1547}
                 height={612}
                 data-brand=""
-                data-logo-light={SITE.logoLight}
-                data-logo-dark={SITE.logoDark}
+                data-logo-light={site.logoLight}
+                data-logo-dark={site.logoDark}
               />
               <span className="brand-fallback brand-name" aria-hidden="true">
-                Madhavam
+                {site.name}
               </span>
             </span>
           </Link>
@@ -101,10 +102,10 @@ export function Header({ solid }: HeaderProps) {
             id="siteNav"
           >
             <ul className="navbar-nav ms-auto">
-              {HOME_NAV.map((item) => (
+              {site.nav.map((item) => (
                 <li
                   key={item.href}
-                  className={`nav-item${"mobileOnly" in item && item.mobileOnly ? " nav-item-mobile-only" : ""}`}
+                  className={`nav-item${item.mobileOnly ? " nav-item-mobile-only" : ""}`}
                 >
                   <Link className="nav-link" href={item.href} onClick={closeMenu}>
                     {item.label}

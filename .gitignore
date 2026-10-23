@@ -32,6 +32,13 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# local data exports (generate with npm run export:data)
+/exports/*.json
+
+# local Mongo data (npm run mongo:local)
+/.data/
 
 # vercel
 .vercel

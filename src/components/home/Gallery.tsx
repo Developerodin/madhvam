@@ -2,7 +2,18 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Reveal } from "@/components/motion/Reveal";
-import { GALLERY_FILTERS, GALLERY_SLIDES, type GallerySlide } from "@/data/gallery";
+import {
+  GALLERY_FILTERS,
+  GALLERY_SLIDES,
+  type GallerySlide,
+} from "@/data/gallery";
+
+type GalleryFilter = { id: string; label: string; icon: string };
+
+type GalleryProps = {
+  slides?: GallerySlide[];
+  filters?: GalleryFilter[];
+};
 
 const LEAF = (
   <svg className="gallery-leaf" viewBox="0 0 72 118" aria-hidden="true">
@@ -86,7 +97,10 @@ function GalleryCard({
   );
 }
 
-export function Gallery() {
+export function Gallery({
+  slides = GALLERY_SLIDES,
+  filters = [...GALLERY_FILTERS],
+}: GalleryProps) {
   const [filter, setFilter] = useState("all");
   const [desktop, setDesktop] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -109,16 +123,16 @@ export function Gallery() {
 
   const looping = filter === "all" && desktop && !reduceMotion && visible;
   const feature = useMemo(
-    () => GALLERY_SLIDES.find((s) => s.feature) || null,
-    [],
+    () => slides.find((s) => s.feature) || null,
+    [slides],
   );
 
   const pool = useMemo(() => {
-    return GALLERY_SLIDES.filter((slide) => {
+    return slides.filter((slide) => {
       if (filter === "all") return !slide.feature && hasMedia(slide);
       return matches(slide, filter);
     });
-  }, [filter]);
+  }, [filter, slides]);
 
   const revealPill = useCallback((item: HTMLElement) => {
     const scroller = item.parentElement;
@@ -148,8 +162,8 @@ export function Gallery() {
   );
 
   function shiftFilter(dir: number) {
-    const ids = GALLERY_FILTERS.map((f) => f.id);
-    const index = ids.indexOf(filter as (typeof ids)[number]);
+    const ids = filters.map((f) => f.id);
+    const index = ids.indexOf(filter);
     const next = ids[(index + dir + ids.length) % ids.length];
     setGalleryFilter(next);
   }
@@ -248,7 +262,7 @@ export function Gallery() {
               aria-label="Gallery categories"
               ref={pillsRef}
             >
-              {GALLERY_FILTERS.map((item) => {
+              {filters.map((item) => {
                 const on = filter === item.id;
                 return (
                   <button

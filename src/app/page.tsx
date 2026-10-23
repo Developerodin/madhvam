@@ -8,34 +8,124 @@ import { Location } from "@/components/home/Location";
 import { Plots } from "@/components/home/Plots";
 import { Quality } from "@/components/home/Quality";
 import { TrackRecord } from "@/components/home/TrackRecord";
-import { homeJsonLd } from "@/lib/jsonld-home";
-import { SITE } from "@/lib/site";
+import { buildHomeJsonLd } from "@/lib/jsonld-home";
+import {
+  getDocumentsPayload,
+  getFaqsPayload,
+  getGalleryPayload,
+  getPageSectionsPayload,
+  getPlotsPayload,
+  getSiteSettings,
+} from "@/lib/content/getters";
+import { fallbackSite } from "@/lib/site-fallback";
+import { MADHAVAM_PLOTS } from "@/data/plots";
+import { DOCUMENTS_SEED } from "@/data/documents-seed";
+import { FAQS_SEED } from "@/data/faqs-seed";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Madhavam | Approved Gated Plots in Raj Nagar Extension, Ghaziabad",
-  description:
-    "Madhavam by Earth Waves Developers — approved gated residential plots at Raj Nagar Extension, Ghaziabad (Delhi NCR). Enquire for a site visit.",
-  alternates: { canonical: `${SITE.canonical}/` },
-};
+export const dynamic = "force-dynamic";
 
-export default function HomePage() {
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const site = await getSiteSettings();
+    return {
+      title: site.seo.homeTitle,
+      description: site.seo.homeDescription,
+      alternates: { canonical: `${site.canonical}/` },
+    };
+  } catch {
+    return {
+      title: fallbackSite.seo.homeTitle,
+      description: fallbackSite.seo.homeDescription,
+      alternates: { canonical: `${fallbackSite.canonical}/` },
+    };
+  }
+}
+
+export default async function HomePage() {
+  let site = fallbackSite;
+  let plotsData: Record<string, unknown> = MADHAVAM_PLOTS as unknown as Record<
+    string,
+    unknown
+  >;
+  let gallery = { slides: undefined as undefined | Awaited<ReturnType<typeof getGalleryPayload>>["slides"], filters: undefined as undefined | Awaited<ReturnType<typeof getGalleryPayload>>["filters"] };
+  let faqs = FAQS_SEED.map((f, i) => ({
+    id: `seed-${i}`,
+    question: f.question,
+    answerHtml: f.answerHtml,
+    order: f.order,
+    featured: f.featured,
+  }));
+  let documents = DOCUMENTS_SEED.map((d) => ({ ...d }));
+  let sections: Awaited<ReturnType<typeof getPageSectionsPayload>> = {};
+
+  try {
+    const bundle = await Promise.all([
+      getSiteSettings(),
+      getPlotsPayload(),
+      getGalleryPayload(),
+      getFaqsPayload(),
+      getDocumentsPayload(),
+      getPageSectionsPayload(),
+    ]);
+    site = bundle[0];
+    plotsData = bundle[1] as Record<string, unknown>;
+    gallery = bundle[2];
+    faqs = bundle[3];
+    documents = bundle[4] as unknown as typeof documents;
+    sections = bundle[5];
+  } catch (err) {
+    console.error("[HomePage] DB unavailable; using seed fallbacks", err);
+  }
+
+  const faqSection = sections.faq?.content ?? {};
+  const docsSection = sections.documents?.content ?? {};
+  const jsonLd = buildHomeJsonLd(site, faqs);
+
   return (
     <SiteShell>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <main>
         <Hero />
         <Location />
-        <Gallery />
+        <Gallery slides={gallery.slides} filters={gallery.filters} />
         <Arrival />
-        <Plots />
-        <Documents />
+        <Plots plotsData={plotsData} />
+        <Documents
+          documents={documents}
+          kicker={String(docsSection.kicker ?? "Document Center")}
+          titleHtml={String(
+            docsSection.titleHtml ??
+              'Approvals and <span class="text-gold">paperwork</span>',
+          )}
+          lead={String(
+            docsSection.lead ??
+              "Official records for Madhavam, supplied by Earth Waves Developers.",
+          )}
+          reraQr={
+            (docsSection.reraQr as {
+              image: string;
+              label: string;
+              noteHtml: string;
+            }) ?? undefined
+          }
+        />
         <Quality />
         <TrackRecord />
-        <Faq />
+        <Faq
+          faqs={faqs}
+          headingHtml={String(
+            faqSection.headingHtml ??
+              'Questions about <span class="text-gold">Madhavam</span>',
+          )}
+          lead={String(
+            faqSection.lead ??
+              "Clear answers for buyers exploring gated residential plots in Rajnagar Extension, Delhi NCR.",
+          )}
+        />
       </main>
     </SiteShell>
   );

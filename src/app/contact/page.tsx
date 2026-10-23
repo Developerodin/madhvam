@@ -1,23 +1,41 @@
 import { EnquiryForm } from "@/components/contact/EnquiryForm";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { Reveal } from "@/components/motion/Reveal";
-import { SITE } from "@/lib/site";
+import { getSiteSettings } from "@/lib/content/getters";
+import { fallbackSite } from "@/lib/site-fallback";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: { absolute: "Contact Us | Madhavam Enquiry" },
-  description:
-    "Enquire about Madhavam gated residential plots in Raj Nagar Extension, Ghaziabad. Book a site visit or leave your number — sales aims to reply within one working day.",
-  alternates: { canonical: `${SITE.canonical}/contact` },
-  openGraph: {
-    url: `${SITE.canonical}/contact`,
-    title: "Contact Us | Madhavam Enquiry",
-    description:
-      "Enquire about Madhavam gated residential plots in Raj Nagar Extension, Ghaziabad.",
-  },
-};
+export const dynamic = "force-dynamic";
 
-export default function ContactPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  let site = fallbackSite;
+  try {
+    site = await getSiteSettings();
+  } catch {
+    /* fallback */
+  }
+  return {
+    title: { absolute: "Contact Us | Madhavam Enquiry" },
+    description:
+      "Enquire about Madhavam gated residential plots in Raj Nagar Extension, Ghaziabad. Book a site visit or leave your number — sales aims to reply within one working day.",
+    alternates: { canonical: `${site.canonical}/contact` },
+    openGraph: {
+      url: `${site.canonical}/contact`,
+      title: "Contact Us | Madhavam Enquiry",
+      description:
+        "Enquire about Madhavam gated residential plots in Raj Nagar Extension, Ghaziabad.",
+    },
+  };
+}
+
+export default async function ContactPage() {
+  let site = fallbackSite;
+  try {
+    site = await getSiteSettings();
+  } catch {
+    /* fallback */
+  }
+
   return (
     <SiteShell solidHeader footerTopHref="#contactMain">
       <main id="contactMain">
@@ -42,17 +60,17 @@ export default function ContactPage() {
             <Reveal as="aside" className="contact-facts">
               <div>
                 <span>Site office</span>
-                <p>{SITE.siteAddress}</p>
+                <p>{site.siteAddress}</p>
               </div>
               <div>
                 <span>Email</span>
                 <p>
-                  <a href={`mailto:${SITE.enquiryEmail}`}>
-                    {SITE.enquiryEmail}
+                  <a href={`mailto:${site.enquiryEmail}`}>
+                    {site.enquiryEmail}
                   </a>
                 </p>
                 <p>
-                  <a href={SITE.companyUrl} rel="noopener noreferrer">
+                  <a href={site.companyUrl} rel="noopener noreferrer">
                     www.ewdevelopers.com
                   </a>
                 </p>
@@ -60,10 +78,10 @@ export default function ContactPage() {
               <div>
                 <span>Phone</span>
                 <p>
-                  <a href={`tel:${SITE.phoneTel}`}>{SITE.phone}</a>
+                  <a href={`tel:${site.phoneTel}`}>{site.phone}</a>
                 </p>
                 <p>
-                  <a href={SITE.whatsapp} rel="noopener noreferrer">
+                  <a href={site.whatsapp} rel="noopener noreferrer">
                     WhatsApp
                   </a>
                 </p>

@@ -9,13 +9,16 @@ export function EnquiryForm() {
   const [message, setMessage] = useState("");
   const [validated, setValidated] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState("");
   const [phoneValidity, setPhoneValidity] = useState("");
 
   const messageReady =
     name.trim().length > 1 && phone.replace(/\D/g, "").length >= 10;
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setFormError("");
     const form = event.currentTarget;
     const digits = phone.replace(/\D/g, "");
     const nextValidity =
@@ -30,7 +33,37 @@ export function EnquiryForm() {
       return;
     }
 
-    setSuccess(true);
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/public/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          phone: phone.trim(),
+          email: email.trim(),
+          message: message.trim(),
+        }),
+      });
+      let data: { error?: string; ok?: boolean; id?: string } = {};
+      try {
+        data = (await res.json()) as typeof data;
+      } catch {
+        /* non-JSON error body */
+      }
+      if (!res.ok) {
+        setFormError(
+          data.error ||
+            `Could not send enquiry (${res.status}). Is MongoDB running?`,
+        );
+        return;
+      }
+      setSuccess(true);
+    } catch {
+      setFormError("Could not send enquiry. Check your connection and try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   if (success) {
@@ -112,8 +145,13 @@ export function EnquiryForm() {
           onChange={(e) => setMessage(e.target.value)}
         />
       </div>
-      <button className="btn btn-solid" type="submit">
-        Enquire Now
+      {formError ? (
+        <p className="invalid" role="alert" style={{ display: "block" }}>
+          {formError}
+        </p>
+      ) : null}
+      <button className="btn btn-solid" type="submit" disabled={submitting}>
+        {submitting ? "Sending…" : "Enquire Now"}
       </button>
     </form>
   );

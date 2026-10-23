@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { SITE } from "@/lib/site";
+import { useSite } from "@/lib/site-context";
 
 export function WhatsAppFloat() {
+  const site = useSite();
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [heroHidden, setHeroHidden] = useState(isHome);
@@ -37,7 +38,7 @@ export function WhatsAppFloat() {
   return (
     <a
       className={`wa-float${heroHidden ? " is-hero-hidden" : ""}`}
-      href={SITE.whatsapp}
+      href={site.whatsapp}
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
     >

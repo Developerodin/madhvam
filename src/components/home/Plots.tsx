@@ -4,18 +4,23 @@ import { useEffect, useRef } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { MADHAVAM_PLOTS } from "@/data/plots";
 import { initPlots } from "@/lib/plots/initPlots";
-import { SITE } from "@/lib/site";
+import { useSite } from "@/lib/site-context";
 
-export function Plots() {
+type PlotsProps = {
+  plotsData?: typeof MADHAVAM_PLOTS | Record<string, unknown>;
+};
+
+export function Plots({ plotsData = MADHAVAM_PLOTS }: PlotsProps) {
+  const site = useSite();
   const rootRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
     // Clone data so mutations in initPlots (e.g. commercial flags) stay local
-    const data = structuredClone(MADHAVAM_PLOTS);
+    const data = structuredClone(plotsData);
     return initPlots(root, data);
-  }, []);
+  }, [plotsData]);
 
   return (
     <section
@@ -256,7 +261,7 @@ export function Plots() {
         <div className="plots-cta-inner sheet">
           <a
             className="plots-wa-btn"
-            href={`${SITE.whatsapp}?text=${encodeURIComponent("Hi, I'd like the latest pricing and inventory for Madhavam, Raj Nagar Extension.")}`}
+            href={`${site.whatsapp}?text=${encodeURIComponent("Hi, I'd like the latest pricing and inventory for Madhavam, Raj Nagar Extension.")}`}
             rel="noopener noreferrer"
           >
             <span className="plots-wa-ico" aria-hidden="true">
@@ -347,7 +352,7 @@ export function Plots() {
           <a
             className="plot-dialog-wa"
             id="plotDialogWa"
-            href={SITE.whatsapp}
+            href={site.whatsapp}
             rel="noopener noreferrer"
           >
             Enquire about this plot

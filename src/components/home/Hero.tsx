@@ -2,8 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { useSite } from "@/lib/site-context";
 
 export function Hero() {
+  const site = useSite();
+  const hero = site.hero;
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -32,36 +35,34 @@ export function Hero() {
         loop
         playsInline
         preload="auto"
-        poster="/assets/hero-poster.webp"
+        poster={hero.poster}
       >
-        <source src="/assets/hero.webm" type="video/webm" />
-        <source src="/assets/hero.mp4" type="video/mp4" />
+        <source src={hero.videoWebm} type="video/webm" />
+        <source src={hero.videoMp4} type="video/mp4" />
       </video>
       <div className="hero-scrim" aria-hidden="true" />
       <div className="hero-copy">
-        <p className="hero-kicker">Madhavam</p>
+        <p className="hero-kicker">{hero.kicker}</p>
         <div className="title-arrows" aria-hidden="true">
           <span className="pillar-arrow pillar-arrow--flip" />
           <span className="pillar-arrow" />
         </div>
         <h1>
-          <span className="hero-title-lead">Land is the</span>
+          <span className="hero-title-lead">{hero.titleLead}</span>
           <br />
-          <span className="hero-title-accent">New Gold</span>
+          <span className="hero-title-accent">{hero.titleAccent}</span>
         </h1>
         <div className="title-arrows" aria-hidden="true">
           <span className="pillar-arrow pillar-arrow--flip" />
           <span className="pillar-arrow" />
         </div>
-        <p className="hero-line">
-          Approved gated residential plots amidst nature
-        </p>
+        <p className="hero-line">{hero.line}</p>
         <div className="hero-actions">
           <Link className="btn btn-hero" href="/contact">
-            Enquire Now
+            {hero.ctaPrimary}
           </Link>
           <Link className="btn btn-hero btn-hero-ghost" href="/contact">
-            Book a Site Visit
+            {hero.ctaSecondary}
           </Link>
         </div>
       </div>
