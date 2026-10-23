@@ -3,8 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/auth/jwt";
 import { connectDb } from "@/lib/db";
-import { Enquiry, Faq, Plot } from "@/models";
-import { LogoutButton } from "@/components/admin/LogoutButton";
+import { Enquiry, Faq, GalleryItem, Plot } from "@/models";
 
 export const dynamic = "force-dynamic";
 
@@ -15,34 +14,60 @@ export default async function AdminDashboardPage() {
   if (!admin) redirect("/admin/login");
 
   await connectDb();
-  const [plotCount, faqCount, enquiryCount, newEnquiries] = await Promise.all([
-    Plot.countDocuments(),
-    Faq.countDocuments(),
-    Enquiry.countDocuments(),
-    Enquiry.countDocuments({ status: "new" }),
-  ]);
+  const [plotCount, available, faqCount, galleryCount, enquiryCount, newEnquiries] =
+    await Promise.all([
+      Plot.countDocuments(),
+      Plot.countDocuments({ status: "Available" }),
+      Faq.countDocuments(),
+      GalleryItem.countDocuments(),
+      Enquiry.countDocuments(),
+      Enquiry.countDocuments({ status: "new" }),
+    ]);
 
   return (
-    <div>
-      <h1 style={{ fontSize: "1.75rem", marginBottom: "0.5rem" }}>Dashboard</h1>
-      <p style={{ color: "#555", marginBottom: "1.5rem" }}>
-        Signed in as {admin.email}
-      </p>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: "1rem",
-        }}
-      >
-        <Stat label="Plots" value={plotCount} href="/admin/plots" />
+    <div className="admin-stack">
+      <header className="admin-page-header">
+        <div>
+          <h1 className="admin-page-title">Dashboard</h1>
+          <p className="admin-muted">Signed in as {admin.email}</p>
+        </div>
+      </header>
+
+      <div className="admin-stat-grid">
+        <Stat label="Plots" value={plotCount} href="/admin/plots" hint={`${available} available`} />
+        <Stat label="New enquiries" value={newEnquiries} href="/admin/enquiries" hint={`${enquiryCount} total`} />
         <Stat label="FAQs" value={faqCount} href="/admin/faqs" />
-        <Stat label="Enquiries" value={enquiryCount} href="/admin/enquiries" />
-        <Stat label="New enquiries" value={newEnquiries} href="/admin/enquiries" />
+        <Stat label="Gallery slides" value={galleryCount} href="/admin/gallery" />
       </div>
-      <div style={{ marginTop: "2rem" }}>
-        <LogoutButton />
-      </div>
+
+      <section className="admin-card">
+        <div className="admin-card-head">
+          <div>
+            <h2 className="admin-card-title">Quick links</h2>
+            <p className="admin-card-desc">Jump to the areas your team updates most often.</p>
+          </div>
+        </div>
+        <div className="admin-card-body">
+          <div className="admin-quick-grid">
+            <Link href="/admin/plots" className="admin-quick-link">
+              <strong>Plots & pricing</strong>
+              <span>Rates, sizes, availability</span>
+            </Link>
+            <Link href="/admin/settings" className="admin-quick-link">
+              <strong>Site settings</strong>
+              <span>Contacts, hero, SEO</span>
+            </Link>
+            <Link href="/admin/enquiries" className="admin-quick-link">
+              <strong>Enquiries</strong>
+              <span>Follow up on leads</span>
+            </Link>
+            <Link href="/admin/faqs" className="admin-quick-link">
+              <strong>FAQs</strong>
+              <span>Buyer questions</span>
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
@@ -51,26 +76,18 @@ function Stat({
   label,
   value,
   href,
+  hint,
 }: {
   label: string;
   value: number;
   href: string;
+  hint?: string;
 }) {
   return (
-    <Link
-      href={href}
-      style={{
-        display: "block",
-        padding: "1rem",
-        background: "#fff",
-        border: "1px solid #ddd",
-        borderRadius: 6,
-        textDecoration: "none",
-        color: "inherit",
-      }}
-    >
-      <div style={{ fontSize: "0.85rem", color: "#666" }}>{label}</div>
-      <div style={{ fontSize: "1.75rem", fontWeight: 700 }}>{value}</div>
+    <Link href={href} className="admin-stat-card">
+      <div className="admin-stat-label">{label}</div>
+      <div className="admin-stat-value">{value}</div>
+      {hint ? <div className="admin-stat-hint">{hint}</div> : null}
     </Link>
   );
 }

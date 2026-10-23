@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/auth/jwt";
 import { getFaqsPayload } from "@/lib/content/getters";
-import { JsonEditor } from "@/components/admin/JsonEditor";
+import { FaqsAdmin } from "@/components/admin/FaqsAdmin";
 
 export const dynamic = "force-dynamic";
 
@@ -12,12 +12,5 @@ export default async function AdminFaqsPage() {
   if (!token || !(await verifyAdminToken(token))) redirect("/admin/login");
 
   const faqs = await getFaqsPayload();
-  return (
-    <JsonEditor
-      title="FAQs"
-      endpoint="/api/admin/faqs"
-      initial={faqs}
-      wrapKey="faqs"
-    />
-  );
+  return <FaqsAdmin initial={faqs} />;
 }

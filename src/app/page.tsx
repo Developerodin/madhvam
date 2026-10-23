@@ -25,20 +25,55 @@ import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
+function homeMetadata(
+  title: string,
+  description: string,
+  canonical: string,
+  ogImage: string,
+): Metadata {
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical },
+    openGraph: {
+      type: "website",
+      locale: "en_IN",
+      url: canonical,
+      siteName: "Madhavam",
+      title,
+      description,
+      images: [
+        {
+          url: ogImage,
+          alt: "Madhavam gated community entrance at Rajnagar Extension, Ghaziabad",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
+  };
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const site = await getSiteSettings();
-    return {
-      title: site.seo.homeTitle,
-      description: site.seo.homeDescription,
-      alternates: { canonical: `${site.canonical}/` },
-    };
+    return homeMetadata(
+      site.seo.homeTitle,
+      site.seo.homeDescription,
+      `${site.canonical}/`,
+      site.ogImage,
+    );
   } catch {
-    return {
-      title: fallbackSite.seo.homeTitle,
-      description: fallbackSite.seo.homeDescription,
-      alternates: { canonical: `${fallbackSite.canonical}/` },
-    };
+    return homeMetadata(
+      fallbackSite.seo.homeTitle,
+      fallbackSite.seo.homeDescription,
+      `${fallbackSite.canonical}/`,
+      fallbackSite.ogImage,
+    );
   }
 }
 

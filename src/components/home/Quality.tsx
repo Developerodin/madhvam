@@ -24,7 +24,7 @@ export function Quality() {
             />
             <img
               src="/assets/Emerald%20Green%20Panoramic%20Landscape%20Outline.png"
-              alt=""
+              alt="Stylised green hillside landscape representing Madhavam at Raj Nagar Extension"
               width={2172}
               height={724}
             />
@@ -108,7 +108,7 @@ export function Quality() {
             />
             <img
               src="/assets/Elegant%20Banquet%20Hall%20Interior.png"
-              alt=""
+              alt="Club Madhavam multi-purpose hall interior by Earth Waves Developers"
             />
           </picture>
           <div className="developer-scrim" aria-hidden="true" />

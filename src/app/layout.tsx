@@ -46,9 +46,11 @@ export const metadata: Metadata = {
     images: [SITE.ogImage],
   },
   alternates: {
-    canonical: SITE.canonical,
+    canonical: `${SITE.canonical}/`,
     types: {
-      "text/plain": [{ url: `${SITE.canonical}/llms.txt`, title: "LLM summary" }],
+      "text/plain": [
+        { url: `${SITE.canonical}/llms.txt`, title: "llms.txt AI summary" },
+      ],
     },
   },
 };

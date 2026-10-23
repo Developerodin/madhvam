@@ -162,10 +162,10 @@ export function Documents({
           </div>
 
           <aside className="documents-rera is-pending" aria-label="UP RERA verification">
-            <div className="documents-rera-qr" aria-hidden="true">
+            <div className="documents-rera-qr">
               <img
                 src={reraQr.image}
-                alt=""
+                alt="UP RERA QR code for Madhavam project registration"
                 width={128}
                 height={128}
                 loading="lazy"

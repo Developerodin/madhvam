@@ -35,44 +35,38 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div style={{ maxWidth: 420, margin: "3rem auto" }}>
-      <h1 style={{ fontSize: "1.75rem", marginBottom: "1rem" }}>Admin login</h1>
-      <form onSubmit={onSubmit} style={{ display: "grid", gap: "0.75rem" }}>
-        <label>
-          Email
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ display: "block", width: "100%", padding: "0.5rem", marginTop: 4 }}
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ display: "block", width: "100%", padding: "0.5rem", marginTop: 4 }}
-          />
-        </label>
-        {error ? <p style={{ color: "#a11" }}>{error}</p> : null}
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            background: "#0E4A32",
-            color: "#fff",
-            border: 0,
-            padding: "0.65rem 1rem",
-            cursor: "pointer",
-          }}
-        >
-          {loading ? "Signing in…" : "Sign in"}
-        </button>
-      </form>
+    <div className="admin-login">
+      <div className="admin-login-card">
+        <h1 className="admin-page-title">Admin login</h1>
+        <form onSubmit={onSubmit} className="admin-login-form">
+          <label className="admin-label">
+            Email
+            <input
+              className="admin-input"
+              type="email"
+              required
+              autoComplete="username"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </label>
+          <label className="admin-label">
+            Password
+            <input
+              className="admin-input"
+              type="password"
+              required
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+          {error ? <p className="admin-error">{error}</p> : null}
+          <button type="submit" className="admin-btn" disabled={loading}>
+            {loading ? "Signing in…" : "Sign in"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

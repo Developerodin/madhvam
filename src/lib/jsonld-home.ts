@@ -45,6 +45,21 @@ export function buildHomeJsonLd(
       publisher: { "@id": `${site.canonical}/#organization` },
     },
     {
+      "@type": "WebPage",
+      "@id": `${site.canonical}/#webpage`,
+      url: `${site.canonical}/`,
+      name: site.seo?.homeTitle ?? site.name,
+      description: site.seo?.homeDescription,
+      isPartOf: { "@id": `${site.canonical}/#website` },
+      about: { "@id": `${site.canonical}/#residence` },
+      publisher: { "@id": `${site.canonical}/#organization` },
+      inLanguage: "en-IN",
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: site.ogImage,
+      },
+    },
+    {
       "@type": "Residence",
       "@id": `${site.canonical}/#residence`,
       name: site.name,

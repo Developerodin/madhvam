@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/auth/jwt";
 import { getDocumentsPayload } from "@/lib/content/getters";
-import { JsonEditor } from "@/components/admin/JsonEditor";
+import { DocumentsAdmin } from "@/components/admin/DocumentsAdmin";
 
 export const dynamic = "force-dynamic";
 
@@ -13,11 +13,19 @@ export default async function AdminDocumentsPage() {
 
   const documents = await getDocumentsPayload();
   return (
-    <JsonEditor
-      title="Documents"
-      endpoint="/api/admin/documents"
-      initial={documents}
-      wrapKey="documents"
+    <DocumentsAdmin
+      initial={documents as {
+        id?: string;
+        key: string;
+        tabLabel: string;
+        name: string;
+        order: number;
+        meta: { label: string; value: string; href?: string }[];
+        noteHtml?: string;
+        actionLabel?: string;
+        actionHref?: string;
+        actionPending?: boolean;
+      }[]}
     />
   );
 }

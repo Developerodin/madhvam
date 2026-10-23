@@ -1,4 +1,5 @@
 import { connectDb } from "@/lib/db";
+import { SITE } from "@/lib/site";
 import {
   SiteSettings,
   PlotsConfig,
@@ -10,6 +11,20 @@ import {
   PageSection,
 } from "@/models";
 import type { GallerySlide } from "@/data/gallery";
+
+/**
+ * Deep-clone via JSON so ObjectIds/Dates become plain strings.
+ * Required before passing Mongo lean docs to Client Components.
+ */
+function toPlain<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
+/** Strip Mongo meta fields from a plain record (after toPlain). */
+function stripMeta(doc: Record<string, unknown>): Record<string, unknown> {
+  const { _id, __v, createdAt, updatedAt, ...rest } = doc;
+  return rest;
+}
 
 export type PublicSiteSettings = {
   name: string;
@@ -56,8 +71,19 @@ function leanSite(doc: Record<string, unknown> | null): PublicSiteSettings {
       "SiteSettings missing. Run `npm run seed` after starting MongoDB.",
     );
   }
-  const { _id, __v, key, createdAt, updatedAt, ...rest } = doc;
-  return rest as PublicSiteSettings;
+  const plain = toPlain(doc);
+  const { key: _key, ...rest } = stripMeta(plain);
+  // Nested subdocs (hero, seo) may still carry _id from older seeds
+  if (rest.hero && typeof rest.hero === "object") {
+    rest.hero = stripMeta(rest.hero as Record<string, unknown>);
+  }
+  if (rest.seo && typeof rest.seo === "object") {
+    rest.seo = stripMeta(rest.seo as Record<string, unknown>);
+  }
+  const settings = rest as PublicSiteSettings;
+  if (!settings.ogImage) settings.ogImage = SITE.ogImage;
+  if (!settings.canonical) settings.canonical = SITE.canonical;
+  return settings;
 }
 
 export async function getSiteSettings(): Promise<PublicSiteSettings> {
@@ -79,26 +105,19 @@ export async function getPlotsPayload(): Promise<PlotsPayload> {
     throw new Error("PlotsConfig missing. Run `npm run seed`.");
   }
   const plots = await Plot.find({}).lean();
-  const { _id, __v, key, createdAt, updatedAt, ...configRest } =
-    config as Record<string, unknown>;
+  const plainConfig = toPlain(config) as Record<string, unknown>;
+  const { key: _key, ...configRest } = stripMeta(plainConfig);
 
-  const plotList = plots.map((p) => {
+  const plotList = toPlain(plots).map((p) => {
     const row = p as Record<string, unknown>;
-    const {
-      _id: pid,
-      __v: pv,
-      createdAt: pc,
-      updatedAt: pu,
-      isCommercial,
-      ...plot
-    } = row;
+    const { isCommercial: _c, ...plot } = stripMeta(row);
     return plot;
   });
 
-  return {
+  return toPlain({
     ...configRest,
     plots: plotList,
-  };
+  });
 }
 
 export async function getGalleryPayload(): Promise<{
@@ -108,21 +127,30 @@ export async function getGalleryPayload(): Promise<{
   await connectDb();
   const items = await GalleryItem.find({}).sort({ order: 1 }).lean();
   const filtersDoc = await GalleryFilters.findOne({ key: "default" }).lean();
-  const slides = items.map((item) => {
+  const slides = toPlain(items).map((item) => {
     const row = item as Record<string, unknown>;
-    const { _id, __v, order, createdAt, updatedAt, ...slide } = row;
+    const { order: _order, ...slide } = stripMeta(row);
     return slide as GallerySlide;
   });
-  return {
-    slides,
-    filters: (filtersDoc?.filters as { id: string; label: string; icon: string }[]) ?? [],
-  };
+  const rawFilters =
+    (toPlain(filtersDoc)?.filters as {
+      id?: string;
+      label?: string;
+      icon?: string;
+      _id?: unknown;
+    }[]) ?? [];
+  const filters = rawFilters.map((f) => ({
+    id: String(f.id ?? ""),
+    label: String(f.label ?? ""),
+    icon: String(f.icon ?? ""),
+  }));
+  return { slides, filters };
 }
 
 export async function getFaqsPayload() {
   await connectDb();
   const faqs = await Faq.find({}).sort({ order: 1 }).lean();
-  return faqs.map((f) => {
+  return toPlain(faqs).map((f) => {
     const row = f as Record<string, unknown>;
     return {
       id: String(row._id),
@@ -137,10 +165,10 @@ export async function getFaqsPayload() {
 export async function getDocumentsPayload() {
   await connectDb();
   const docs = await DocumentItem.find({}).sort({ order: 1 }).lean();
-  return docs.map((d) => {
+  return toPlain(docs).map((d) => {
     const row = d as Record<string, unknown>;
-    const { _id, __v, createdAt, updatedAt, ...rest } = row;
-    return { id: String(_id), ...rest };
+    const id = String(row._id);
+    return { id, ...stripMeta(row) };
   });
 }
 
@@ -149,11 +177,11 @@ export async function getPageSectionsPayload() {
   const sections = await PageSection.find({}).lean();
   const map: Record<string, { title?: string; content: Record<string, unknown> }> =
     {};
-  for (const s of sections) {
+  for (const s of toPlain(sections)) {
     const row = s as Record<string, unknown>;
     map[String(row.key)] = {
       title: row.title as string | undefined,
-      content: (row.content as Record<string, unknown>) ?? {},
+      content: toPlain((row.content as Record<string, unknown>) ?? {}),
     };
   }
   return map;

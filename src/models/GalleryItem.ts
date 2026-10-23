@@ -21,11 +21,14 @@ const GalleryFiltersSchema = new Schema(
   {
     key: { type: String, required: true, unique: true, default: "default" },
     filters: [
-      {
-        id: String,
-        label: String,
-        icon: String,
-      },
+      new Schema(
+        {
+          id: String,
+          label: String,
+          icon: String,
+        },
+        { _id: false },
+      ),
     ],
   },
   { timestamps: true },

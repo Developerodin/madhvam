@@ -3,7 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export function LogoutButton() {
+type LogoutButtonProps = {
+  variant?: "sidebar" | "outline";
+};
+
+export function LogoutButton({ variant = "outline" }: LogoutButtonProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -19,13 +23,7 @@ export function LogoutButton() {
       type="button"
       onClick={logout}
       disabled={loading}
-      style={{
-        background: "transparent",
-        border: "1px solid #0E4A32",
-        color: "#0E4A32",
-        padding: "0.45rem 0.9rem",
-        cursor: "pointer",
-      }}
+      className={variant === "sidebar" ? "admin-btn admin-btn-ghost" : "admin-btn admin-btn-outline"}
     >
       {loading ? "Signing out…" : "Sign out"}
     </button>

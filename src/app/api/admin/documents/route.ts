@@ -21,14 +21,21 @@ export async function PUT(request: NextRequest) {
   }
 
   await connectDb();
+  const keys: string[] = [];
   for (const doc of body.documents) {
     if (!doc.key) continue;
+    keys.push(String(doc.key));
     const { _id, __v, id, createdAt, updatedAt, ...rest } = doc;
     await DocumentItem.findOneAndUpdate(
       { key: doc.key },
       { $set: rest },
       { upsert: true },
     );
+  }
+  if (keys.length > 0) {
+    await DocumentItem.deleteMany({ key: { $nin: keys } });
+  } else {
+    await DocumentItem.deleteMany({});
   }
 
   revalidatePublic();

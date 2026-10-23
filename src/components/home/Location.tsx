@@ -315,7 +315,12 @@ export function Location() {
             aria-expanded={expanded}
             onClick={openMap}
           >
-            <img src={MAP_SRC} alt="" width={1448} height={1256} />
+            <img
+              src={MAP_SRC}
+              alt="Connectivity map showing Madhavam near Harnandipuram, Hindon Airport, Meerut Road, and nearby landmarks"
+              width={1448}
+              height={1256}
+            />
             <span className="location-map-cue">View map</span>
           </button>
 

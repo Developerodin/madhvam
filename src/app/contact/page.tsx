@@ -2,10 +2,15 @@ import { EnquiryForm } from "@/components/contact/EnquiryForm";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { Reveal } from "@/components/motion/Reveal";
 import { getSiteSettings } from "@/lib/content/getters";
+import { buildWebPageJsonLd } from "@/lib/jsonld-page";
 import { fallbackSite } from "@/lib/site-fallback";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
+
+const PAGE_TITLE = "Contact Us | Madhavam Enquiry";
+const PAGE_DESCRIPTION =
+  "Enquire about Madhavam gated residential plots in Raj Nagar Extension, Ghaziabad. Book a site visit or leave your number — sales aims to reply within one working day.";
 
 export async function generateMetadata(): Promise<Metadata> {
   let site = fallbackSite;
@@ -14,16 +19,32 @@ export async function generateMetadata(): Promise<Metadata> {
   } catch {
     /* fallback */
   }
+  const url = `${site.canonical}/contact`;
   return {
-    title: { absolute: "Contact Us | Madhavam Enquiry" },
-    description:
-      "Enquire about Madhavam gated residential plots in Raj Nagar Extension, Ghaziabad. Book a site visit or leave your number — sales aims to reply within one working day.",
-    alternates: { canonical: `${site.canonical}/contact` },
+    title: { absolute: PAGE_TITLE },
+    description: PAGE_DESCRIPTION,
+    alternates: { canonical: url },
     openGraph: {
-      url: `${site.canonical}/contact`,
-      title: "Contact Us | Madhavam Enquiry",
+      type: "website",
+      locale: "en_IN",
+      url,
+      siteName: "Madhavam",
+      title: PAGE_TITLE,
       description:
         "Enquire about Madhavam gated residential plots in Raj Nagar Extension, Ghaziabad.",
+      images: [
+        {
+          url: site.ogImage,
+          alt: "Madhavam gated community entrance at Rajnagar Extension, Ghaziabad",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: PAGE_TITLE,
+      description:
+        "Enquire about Madhavam gated residential plots in Raj Nagar Extension, Ghaziabad.",
+      images: [site.ogImage],
     },
   };
 }
@@ -36,8 +57,20 @@ export default async function ContactPage() {
     /* fallback */
   }
 
+  const jsonLd = buildWebPageJsonLd({
+    path: "/contact",
+    name: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    dateModified: "2026-10-22",
+    additionalTypes: ["ContactPage"],
+  });
+
   return (
     <SiteShell solidHeader footerTopHref="#contactMain">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main id="contactMain">
         <section className="paper band contact" id="contact">
           <div className="sheet contact-grid">

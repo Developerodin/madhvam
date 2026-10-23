@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 import { ADMIN_COOKIE } from "@/lib/auth/constants";
 
+function withAdminNoIndex(response: NextResponse): NextResponse {
+  response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
+  return response;
+}
+
 async function hasValidAdminToken(request: NextRequest): Promise<boolean> {
   const token = request.cookies.get(ADMIN_COOKIE)?.value;
   const secret = process.env.JWT_SECRET;
@@ -18,7 +23,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/admin/login")) {
-    return NextResponse.next();
+    return withAdminNoIndex(NextResponse.next());
   }
 
   if (pathname.startsWith("/admin")) {
@@ -26,8 +31,9 @@ export async function middleware(request: NextRequest) {
     if (!ok) {
       const url = request.nextUrl.clone();
       url.pathname = "/admin/login";
-      return NextResponse.redirect(url);
+      return withAdminNoIndex(NextResponse.redirect(url));
     }
+    return withAdminNoIndex(NextResponse.next());
   }
 
   return NextResponse.next();
