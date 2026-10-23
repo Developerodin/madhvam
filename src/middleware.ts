@@ -8,7 +8,11 @@ function withAdminNoIndex(response: NextResponse): NextResponse {
 }
 
 async function hasValidAdminToken(request: NextRequest): Promise<boolean> {
-  const token = request.cookies.get(ADMIN_COOKIE)?.value;
+  const bearer = request.headers.get("authorization");
+  const fromHeader =
+    bearer?.startsWith("Bearer ") ? bearer.slice(7).trim() : "";
+  const token =
+    fromHeader || request.cookies.get(ADMIN_COOKIE)?.value || "";
   const secret = process.env.JWT_SECRET;
   if (!token || !secret) return false;
   try {
@@ -21,6 +25,14 @@ async function hasValidAdminToken(request: NextRequest): Promise<boolean> {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (pathname.startsWith("/api/admin")) {
+    const ok = await hasValidAdminToken(request);
+    if (!ok) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    return NextResponse.next();
+  }
 
   if (pathname.startsWith("/admin/login")) {
     return withAdminNoIndex(NextResponse.next());
@@ -40,5 +52,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/api/admin/:path*"],
 };

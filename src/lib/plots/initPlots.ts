@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, prefer-const, no-var */
 // @ts-nocheck
-/* eslint-disable @typescript-eslint/no-explicit-any, prefer-const, no-var */
 /** Port of plots interaction from js/main.js — same DOM behavior. */
 export function initPlots(root: HTMLElement, plotsData: any): () => void {
 

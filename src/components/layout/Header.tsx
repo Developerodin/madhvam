@@ -17,15 +17,9 @@ export function Header({ solid }: HeaderProps) {
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [logoSrc, setLogoSrc] = useState(
-    forceSolid ? site.logoDark : site.logoLight,
-  );
 
   const needsDark = forceSolid || scrolled || menuOpen;
-
-  useEffect(() => {
-    setLogoSrc(needsDark ? site.logoDark : site.logoLight);
-  }, [needsDark, site.logoDark, site.logoLight]);
+  const logoSrc = needsDark ? site.logoDark : site.logoLight;
 
   useEffect(() => {
     const dark = new Image();

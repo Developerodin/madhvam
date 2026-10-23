@@ -43,6 +43,7 @@ export function EnquiryForm() {
           phone: phone.trim(),
           email: email.trim(),
           message: message.trim(),
+          company: "", // honeypot
         }),
       });
       let data: { error?: string; ok?: boolean; id?: string } = {};
@@ -95,6 +96,27 @@ export function EnquiryForm() {
           onChange={(e) => setName(e.target.value)}
         />
         <p className="invalid">Please enter your full name.</p>
+      </div>
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "-10000px",
+          top: "auto",
+          width: 1,
+          height: 1,
+          overflow: "hidden",
+        }}
+      >
+        <label htmlFor="company">Company</label>
+        <input
+          id="company"
+          name="company"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          defaultValue=""
+        />
       </div>
       <div className="field">
         <label htmlFor="phone">Phone</label>

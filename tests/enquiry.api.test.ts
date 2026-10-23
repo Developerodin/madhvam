@@ -40,4 +40,22 @@ describe("Enquiry API", () => {
     const count = await Enquiry.countDocuments({ name: "Test Buyer" });
     expect(count).toBe(1);
   });
+
+  it("ignores honeypot-filled submissions without storing", async () => {
+    const before = await Enquiry.countDocuments();
+    const res = await createEnquiry(
+      new NextRequest("http://localhost/api/public/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: "Bot Buyer",
+          phone: "+91 98765 43210",
+          company: "Spam Corp",
+        }),
+      }),
+    );
+    expect(res.status).toBe(201);
+    const after = await Enquiry.countDocuments();
+    expect(after).toBe(before);
+  });
 });

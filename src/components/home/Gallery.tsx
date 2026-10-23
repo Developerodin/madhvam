@@ -112,7 +112,8 @@ export function Gallery({
     const sync = () => setDesktop(mq.matches);
     sync();
     mq.addEventListener("change", sync);
-    setReduceMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    queueMicrotask(() => setReduceMotion(reduce));
     const onVis = () => setVisible(document.visibilityState !== "hidden");
     document.addEventListener("visibilitychange", onVis);
     return () => {

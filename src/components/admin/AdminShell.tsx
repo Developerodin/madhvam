@@ -28,10 +28,6 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   const navId = useId();
 
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
     if (!open) return;
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
@@ -101,6 +97,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                   ? " is-active"
                   : ""
               }`}
+              onClick={() => setOpen(false)}
             >
               {item.label}
             </Link>

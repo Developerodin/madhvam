@@ -2,6 +2,7 @@ import { z } from "zod";
 import { connectDb } from "@/lib/db";
 import { Enquiry } from "@/models";
 import { jsonError, jsonOk, parseJson } from "@/lib/api";
+import { clientIp, rateLimit } from "@/lib/security/rateLimit";
 
 const EnquirySchema = z.object({
   name: z.string().trim().min(2),
@@ -11,13 +12,26 @@ const EnquirySchema = z.object({
     .optional()
     .default(""),
   message: z.string().optional().default(""),
+  /** Honeypot — must stay empty */
+  company: z.string().optional().default(""),
 });
 
 export async function POST(request: Request) {
+  const ip = clientIp(request);
+  const limited = rateLimit(`enquiry:${ip}`, 8, 15 * 60 * 1000);
+  if (!limited.ok) {
+    return jsonError("Too many enquiries. Please try again later.", 429);
+  }
+
   const body = await parseJson<unknown>(request);
   const parsed = EnquirySchema.safeParse(body);
   if (!parsed.success) {
     return jsonError("Invalid enquiry payload", 400);
+  }
+
+  // Silent success for bots that fill honeypot
+  if (parsed.data.company.trim()) {
+    return jsonOk({ id: "ok", ok: true }, { status: 201 });
   }
 
   const digits = parsed.data.phone.replace(/\D/g, "");
@@ -45,7 +59,8 @@ export async function POST(request: Request) {
   } catch (err) {
     console.error("[enquiries] save failed", err);
     const message =
-      err instanceof Error && /ECONNREFUSED|ServerSelection|MONGODB_URI/i.test(err.message)
+      err instanceof Error &&
+      /ECONNREFUSED|ServerSelection|MONGODB_URI/i.test(err.message)
         ? "Database unavailable. Start Mongo with `npm run mongo:local` (or Docker), then `npm run seed`."
         : "Could not save enquiry. Please try again.";
     return jsonError(message, 503);

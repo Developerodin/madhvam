@@ -53,6 +53,10 @@ export const metadata: Metadata = {
       ],
     },
   },
+  icons: {
+    icon: [{ url: "/assets/madhavam-logo-burgundy.webp", type: "image/webp" }],
+    apple: [{ url: "/assets/madhavam-logo-burgundy.webp" }],
+  },
 };
 
 export const viewport: Viewport = {

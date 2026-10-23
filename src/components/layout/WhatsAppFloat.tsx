@@ -8,32 +8,27 @@ export function WhatsAppFloat() {
   const site = useSite();
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const [heroHidden, setHeroHidden] = useState(isHome);
+  const [heroInView, setHeroInView] = useState(true);
 
   useEffect(() => {
-    if (!isHome) {
-      setHeroHidden(false);
-      return;
-    }
+    if (!isHome) return;
 
     const hero = document.querySelector(".hero");
-    if (!hero) {
-      setHeroHidden(false);
-      return;
-    }
+    if (!hero) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          setHeroHidden(entry.isIntersecting);
+          setHeroInView(entry.isIntersecting);
         });
       },
       { threshold: 0 },
     );
     observer.observe(hero);
-    setHeroHidden(true);
     return () => observer.disconnect();
   }, [isHome]);
+
+  const heroHidden = isHome && heroInView;
 
   return (
     <a

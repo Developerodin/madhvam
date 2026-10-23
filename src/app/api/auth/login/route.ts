@@ -8,6 +8,7 @@ import {
   signAdminToken,
 } from "@/lib/auth/jwt";
 import { jsonError, jsonOk, parseJson } from "@/lib/api";
+import { clientIp, rateLimit } from "@/lib/security/rateLimit";
 
 const LoginSchema = z.object({
   email: z.string().email(),
@@ -15,6 +16,12 @@ const LoginSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  const ip = clientIp(request);
+  const limited = rateLimit(`login:${ip}`, 10, 15 * 60 * 1000);
+  if (!limited.ok) {
+    return jsonError("Too many login attempts. Try again later.", 429);
+  }
+
   const body = await parseJson<unknown>(request);
   const parsed = LoginSchema.safeParse(body);
   if (!parsed.success) {
@@ -39,8 +46,8 @@ export async function POST(request: Request) {
     email: admin.email,
   });
 
+  // Cookie-only session for browsers; do not echo JWT in JSON body.
   const response = jsonOk({
-    token,
     admin: { id: String(admin._id), email: admin.email },
   });
   response.cookies.set(ADMIN_COOKIE, token, adminCookieOptions());

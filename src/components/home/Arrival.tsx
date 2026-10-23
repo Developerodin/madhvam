@@ -287,7 +287,8 @@ export function Arrival() {
   useEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) {
-      setMode("static");
+      // Media preference is an external system; apply after paint.
+      queueMicrotask(() => setMode("static"));
       return;
     }
     const mq = window.matchMedia("(max-width: 767.98px)");
