@@ -12,7 +12,7 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
     var chipsEl = document.getElementById("plotsBandChips");
     var bandRows = section.querySelectorAll(".plots-band-row");
     var NS = "http://www.w3.org/2000/svg";
-    var WA_BASE = "https://wa.me/918069982711";
+    var WA_BASE = "https://wa.me/919319976589";
     var activeBand = null;
     var plotByNumber = {};
 

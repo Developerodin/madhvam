@@ -34,7 +34,7 @@ export const FAQS_SEED: FaqSeed[] = [
     order: 5,
     featured: true,
     question: "How can I enquire about Madhavam or book a site visit?",
-    answerHtml: `Enquire via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> or <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, call <a href="tel:+918069982711">+91 80699 82711</a> (<a href="https://wa.me/918069982711" rel="noopener noreferrer">WhatsApp</a> same), company IVR <a href="tel:+918826458080">+91 88264 58080</a>, or general <a href="tel:+919319976589">+91 93199 76589</a>. The sales desk aims to respond within one working day.`,
+    answerHtml: `Enquire via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> or <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, call <a href="tel:+918069982711">+91 80699 82711</a> or <a href="https://wa.me/919319976589" rel="noopener noreferrer">WhatsApp +91 93199 76589</a>, company IVR <a href="tel:+918826458080">+91 88264 58080</a>, or general <a href="tel:+919319976589">+91 93199 76589</a>. The sales desk aims to respond within one working day.`,
   },
   {
     order: 6,
@@ -47,68 +47,68 @@ export const FAQS_SEED: FaqSeed[] = [
     featured: false,
     question:
       "What is the registry process, and what are the stamp duty and registry charges?",
-    answerHtml: `Registry steps and applicable stamp duty or registry charges are confirmed by Earth Waves Developers at the time of enquiry. Contact sales via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> (<a href="https://wa.me/918069982711" rel="noopener noreferrer">WhatsApp</a> same).`,
+    answerHtml: `Registry steps and applicable stamp duty or registry charges are confirmed by Earth Waves Developers at the time of enquiry. Contact sales via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> or <a href="https://wa.me/919319976589" rel="noopener noreferrer">WhatsApp +91 93199 76589</a>.`,
   },
   {
     order: 8,
     featured: false,
     question:
       "What are the maintenance charges, and who maintains the common areas?",
-    answerHtml: `Maintenance charges and common-area upkeep arrangements are shared by Earth Waves Developers during enquiry. Reach the sales desk via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> (<a href="https://wa.me/918069982711" rel="noopener noreferrer">WhatsApp</a> same).`,
+    answerHtml: `Maintenance charges and common-area upkeep arrangements are shared by Earth Waves Developers during enquiry. Reach the sales desk via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> or <a href="https://wa.me/919319976589" rel="noopener noreferrer">WhatsApp +91 93199 76589</a>.`,
   },
   {
     order: 9,
     featured: false,
     question: "Is club membership included, and is there a separate charge?",
-    answerHtml: `Club Madhavam membership terms and any separate charges are confirmed by Earth Waves Developers at enquiry. Contact sales via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> (<a href="https://wa.me/918069982711" rel="noopener noreferrer">WhatsApp</a> same).`,
+    answerHtml: `Club Madhavam membership terms and any separate charges are confirmed by Earth Waves Developers at enquiry. Contact sales via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> or <a href="https://wa.me/919319976589" rel="noopener noreferrer">WhatsApp +91 93199 76589</a>.`,
   },
   {
     order: 10,
     featured: false,
     question: "What is the possession timeline?",
-    answerHtml: `The current possession timeline for Madhavam is confirmed by Earth Waves Developers at the time of enquiry. Ask via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> (<a href="https://wa.me/918069982711" rel="noopener noreferrer">WhatsApp</a> same).`,
+    answerHtml: `The current possession timeline for Madhavam is confirmed by Earth Waves Developers at the time of enquiry. Ask via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> or <a href="https://wa.me/919319976589" rel="noopener noreferrer">WhatsApp +91 93199 76589</a>.`,
   },
   {
     order: 11,
     featured: false,
     question: "Is there a deadline to start construction after possession?",
-    answerHtml: `Any post-possession construction deadlines are confirmed by Earth Waves Developers during enquiry. Contact sales via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> (<a href="https://wa.me/918069982711" rel="noopener noreferrer">WhatsApp</a> same).`,
+    answerHtml: `Any post-possession construction deadlines are confirmed by Earth Waves Developers during enquiry. Contact sales via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> or <a href="https://wa.me/919319976589" rel="noopener noreferrer">WhatsApp +91 93199 76589</a>.`,
   },
   {
     order: 12,
     featured: false,
     question: "Can I resell or transfer my plot? What is the process?",
-    answerHtml: `Resale and transfer process details are shared by Earth Waves Developers at the time of enquiry. Reach sales via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> (<a href="https://wa.me/918069982711" rel="noopener noreferrer">WhatsApp</a> same).`,
+    answerHtml: `Resale and transfer process details are shared by Earth Waves Developers at the time of enquiry. Reach sales via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> or <a href="https://wa.me/919319976589" rel="noopener noreferrer">WhatsApp +91 93199 76589</a>.`,
   },
   {
     order: 13,
     featured: false,
     question: "Can NRIs purchase a plot here?",
-    answerHtml: `NRI purchase eligibility and documentation requirements are confirmed by Earth Waves Developers during enquiry. Contact sales via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> (<a href="https://wa.me/918069982711" rel="noopener noreferrer">WhatsApp</a> same).`,
+    answerHtml: `NRI purchase eligibility and documentation requirements are confirmed by Earth Waves Developers during enquiry. Contact sales via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> or <a href="https://wa.me/919319976589" rel="noopener noreferrer">WhatsApp +91 93199 76589</a>.`,
   },
   {
     order: 14,
     featured: false,
     question: "Can I take a loan for the plot? Which banks fund it?",
-    answerHtml: `Plot loan options and participating banks are confirmed by Earth Waves Developers at the time of enquiry. Ask via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> (<a href="https://wa.me/918069982711" rel="noopener noreferrer">WhatsApp</a> same).`,
+    answerHtml: `Plot loan options and participating banks are confirmed by Earth Waves Developers at the time of enquiry. Ask via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> or <a href="https://wa.me/919319976589" rel="noopener noreferrer">WhatsApp +91 93199 76589</a>.`,
   },
   {
     order: 15,
     featured: false,
     question:
       "What can I build on a 100 / 120 / 143 sq yd plot (floors, setbacks)?",
-    answerHtml: `Permitted floors, setbacks, and buildable area by plot size are confirmed by Earth Waves Developers during enquiry. Contact sales via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> (<a href="https://wa.me/918069982711" rel="noopener noreferrer">WhatsApp</a> same).`,
+    answerHtml: `Permitted floors, setbacks, and buildable area by plot size are confirmed by Earth Waves Developers during enquiry. Contact sales via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> or <a href="https://wa.me/919319976589" rel="noopener noreferrer">WhatsApp +91 93199 76589</a>.`,
   },
   {
     order: 16,
     featured: false,
     question: "What is the payment plan?",
-    answerHtml: `The current payment plan for Madhavam is shared by Earth Waves Developers at the time of enquiry. Reach sales via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> (<a href="https://wa.me/918069982711" rel="noopener noreferrer">WhatsApp</a> same).`,
+    answerHtml: `The current payment plan for Madhavam is shared by Earth Waves Developers at the time of enquiry. Reach sales via the <a href="/contact">Contact Us page</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>, or call <a href="tel:+918069982711">+91 80699 82711</a> or <a href="https://wa.me/919319976589" rel="noopener noreferrer">WhatsApp +91 93199 76589</a>.`,
   },
   {
     order: 17,
     featured: false,
     question: "What plot sizes are available, and what is the current pricing?",
-    answerHtml: `Madhavam offers 87 residential plots in brochure size bands of about 100, 103, 120, 125, 143 and 175 sq yd (plot numbers 01–73 and 76–89; 74 and 75 are unused in the legend). Corner plots may differ in size. Tentative rate and amount/month from the project plot list are shown in the <a href="#plots">Plots and Pricing</a> section; final figures and live availability are confirmed by Earth Waves Developers — enquire via <a href="https://wa.me/918069982711" rel="noopener noreferrer">WhatsApp</a> <a href="tel:+918069982711">+91 80699 82711</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>.`,
+    answerHtml: `Madhavam offers 87 residential plots in brochure size bands of about 100, 103, 120, 125, 143 and 175 sq yd (plot numbers 01–73 and 76–89; 74 and 75 are unused in the legend). Corner plots may differ in size. Tentative rate and amount/month from the project plot list are shown in the <a href="#plots">Plots and Pricing</a> section; final figures and live availability are confirmed by Earth Waves Developers — enquire via <a href="https://wa.me/919319976589" rel="noopener noreferrer">WhatsApp +91 93199 76589</a>, call <a href="tel:+918069982711">+91 80699 82711</a>, email <a href="mailto:admin@earthwavesdevelopers.com">admin@earthwavesdevelopers.com</a> / <a href="mailto:sales@earthwavesdevelopers.com">sales@earthwavesdevelopers.com</a>.`,
   },
 ];

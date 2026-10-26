@@ -11,7 +11,7 @@ export const SITE = {
   salesEmail: "sales@earthwavesdevelopers.com",
   phone: "+91 80699 82711",
   phoneTel: "+918069982711",
-  whatsapp: "https://wa.me/918069982711",
+  whatsapp: "https://wa.me/919319976589",
   ivr: "+91 88264 58080",
   ivrTel: "+918826458080",
   generalPhone: "+91 93199 76589",

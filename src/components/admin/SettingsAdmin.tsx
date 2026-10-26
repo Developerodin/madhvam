@@ -181,7 +181,7 @@ export function SettingsAdmin({ initial }: { initial: PublicSiteSettings }) {
             <input
               className="admin-input"
               value={form.whatsapp || ""}
-              placeholder="https://wa.me/918069982711"
+              placeholder="https://wa.me/919319976589"
               onChange={(e) => set("whatsapp", e.target.value)}
             />
           </Field>

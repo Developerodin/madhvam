@@ -1564,13 +1564,6 @@ p { margin: 0 0 1rem; }
   outline-offset: 4px;
 }
 
-.location-horizon {
-  display: block;
-  width: min(1080px, calc(100% - 2.5rem));
-  height: auto;
-  margin: 2.5rem auto 0;
-}
-
 .location-connect { display: none; }
 
 .map-dialog {
@@ -1771,18 +1764,10 @@ p { margin: 0 0 1rem; }
     margin-bottom: 0.35rem;
   }
 
-  .location-horizon {
-    grid-column: 1 / -1;
-    order: 2;
-    width: min(100%, 36rem);
-    margin: 0.35rem auto 1.5rem;
-    justify-self: center;
-  }
-
   .location-connect {
     display: block;
     grid-column: 1 / -1;
-    order: 3;
+    order: 2;
     width: 100%;
     margin: 0.15rem 0 1.85rem;
   }
