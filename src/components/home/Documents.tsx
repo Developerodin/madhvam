@@ -28,9 +28,9 @@ type DocumentsProps = {
 };
 
 const DEFAULT_RERA_QR = {
-  image: "/assets/documents/up-rera-qr.svg",
+  image: "/assets/documents/up-rera-qr.png",
   label: "UP RERA QR",
-  noteHtml: `Brochure QR pending. Verify registration <a href="https://www.up-rera.in/" rel="noopener noreferrer">UPRERAPRJ245925/09/2026</a> on <a href="https://www.up-rera.in/" rel="noopener noreferrer">up-rera.in</a>.`,
+  noteHtml: `Scan to verify registration <a href="https://www.up-rera.in/" rel="noopener noreferrer">UPRERAPRJ245925/09/2026</a> on <a href="https://www.up-rera.in/" rel="noopener noreferrer">up-rera.in</a>.`,
 };
 
 export function Documents({
@@ -161,7 +161,7 @@ export function Documents({
             })}
           </div>
 
-          <aside className="documents-rera is-pending" aria-label="UP RERA verification">
+          <aside className="documents-rera" aria-label="UP RERA verification">
             <div className="documents-rera-qr">
               <img
                 src={reraQr.image}

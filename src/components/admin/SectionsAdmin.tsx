@@ -169,7 +169,7 @@ export function SectionsAdmin({ initial }: { initial: SectionsMap }) {
                     <input
                       className="admin-input"
                       value={str((content.reraQr as Record<string, unknown>) || {}, "image")}
-                      placeholder="/assets/documents/up-rera-qr.svg"
+                      placeholder="/assets/documents/up-rera-qr.png"
                       onChange={(e) => updateReraQr("image", e.target.value)}
                     />
                   </Field>

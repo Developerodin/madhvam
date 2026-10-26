@@ -78,8 +78,8 @@ export const DOCUMENTS_SECTION_SEED = {
   titleHtml: 'Approvals and <span class="text-gold">paperwork</span>',
   lead: "Official records for Madhavam, supplied by Earth Waves Developers.",
   reraQr: {
-    image: "/assets/documents/up-rera-qr.svg",
+    image: "/assets/documents/up-rera-qr.png",
     label: "UP RERA QR",
-    noteHtml: `Brochure QR pending. Verify registration <a href="https://www.up-rera.in/" rel="noopener noreferrer">UPRERAPRJ245925/09/2026</a> on <a href="https://www.up-rera.in/" rel="noopener noreferrer">up-rera.in</a>.`,
+    noteHtml: `Scan to verify registration <a href="https://www.up-rera.in/" rel="noopener noreferrer">UPRERAPRJ245925/09/2026</a> on <a href="https://www.up-rera.in/" rel="noopener noreferrer">up-rera.in</a>.`,
   },
 };
