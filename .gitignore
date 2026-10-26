@@ -40,6 +40,11 @@ yarn-error.log*
 # local Mongo data (npm run mongo:local)
 /.data/
 
+# admin-uploaded documents (kept on disk; seed PDFs live under /public/assets)
+/public/uploads/documents/*
+!/public/uploads/documents/.gitkeep
+
+
 # vercel
 .vercel
 
