@@ -94,18 +94,6 @@ export function Plots({ plotsData = MADHAVAM_PLOTS }: PlotsProps) {
                 <span className="plots-dot" style={{ background: "#F09EBC" }} aria-hidden="true" />
                 Commercial
               </li>
-              <li className="plots-legend-status">
-                <span className="plots-dot is-booked" aria-hidden="true" />
-                Booked
-              </li>
-              <li className="plots-legend-status">
-                <span className="plots-dot is-sold" aria-hidden="true" />
-                Sold
-              </li>
-              <li className="plots-legend-status">
-                <span className="plots-dot is-mortgage" aria-hidden="true" />
-                Mortgage
-              </li>
             </ul>
 
             <aside
@@ -121,7 +109,7 @@ export function Plots({ plotsData = MADHAVAM_PLOTS }: PlotsProps) {
                 </h3>
                 <p className="cost-calc-lead">
                   Select a plot for an indicative ownership estimate. Figures are
-                  placeholders until Earth Waves confirm final charges.
+                  placeholders until Earthwaves confirm final charges.
                 </p>
               </div>
               <div className="cost-calc-field">

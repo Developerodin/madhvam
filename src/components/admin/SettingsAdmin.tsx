@@ -78,7 +78,7 @@ export function SettingsAdmin({ initial }: { initial: PublicSiteSettings }) {
             <input
               className="admin-input"
               value={form.brand || ""}
-              placeholder="Earth Waves Developers"
+              placeholder="Earthwaves Developers"
               onChange={(e) => set("brand", e.target.value)}
             />
           </Field>
@@ -364,7 +364,7 @@ export function SettingsAdmin({ initial }: { initial: PublicSiteSettings }) {
               className="admin-textarea"
               rows={3}
               value={form.seo?.homeDescription || ""}
-              placeholder="Madhavam by Earth Waves Developers — approved gated residential plots…"
+              placeholder="Madhavam by Earthwaves Developers — approved gated residential plots…"
               onChange={(e) => setSeo("homeDescription", e.target.value)}
             />
           </Field>

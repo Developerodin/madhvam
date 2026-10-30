@@ -111,7 +111,7 @@ export default async function ContactPage() {
               <div>
                 <span>Phone</span>
                 <p>
-                  <a href={`tel:${site.phoneTel}`}>{site.phone}</a>
+                  <a href={`tel:${site.generalTel}`}>{site.generalPhone}</a>
                 </p>
                 <p>
                   <a href={site.whatsapp} rel="noopener noreferrer">

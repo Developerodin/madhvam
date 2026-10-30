@@ -83,7 +83,7 @@ export async function seedTestDb() {
     seo: {
       homeTitle: "Madhavam | Approved Gated Plots in Raj Nagar Extension, Ghaziabad",
       homeDescription:
-        "Madhavam by Earth Waves Developers — approved gated residential plots at Raj Nagar Extension, Ghaziabad (Delhi NCR). Enquire for a site visit.",
+        "Madhavam by Earthwaves Developers — approved gated residential plots at Raj Nagar Extension, Ghaziabad (Delhi NCR). Enquire for a site visit.",
     },
   });
 

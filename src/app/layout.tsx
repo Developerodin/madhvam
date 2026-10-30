@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@/styles/style.css";
 import { SITE } from "@/lib/site";
@@ -10,8 +11,11 @@ export const metadata: Metadata = {
     template: "%s | Madhavam",
   },
   description:
-    "Madhavam by Earth Waves Developers — approved gated residential plots at Raj Nagar Extension, Ghaziabad (Delhi NCR). Enquire for a site visit.",
+    "Madhavam by Earthwaves Developers — approved gated residential plots at Raj Nagar Extension, Ghaziabad (Delhi NCR). Enquire for a site visit.",
   authors: [{ name: "Earthwaves Developers Pvt Ltd" }],
+  verification: {
+    google: "VD7ONKUm2QnuWOvtgnrx7fNPIRsGtVLwL8kvGcFOEtA",
+  },
   robots: {
     index: true,
     follow: true,
@@ -30,7 +34,7 @@ export const metadata: Metadata = {
     url: SITE.canonical,
     title: "Madhavam | Approved Gated Plots in Raj Nagar Extension, Ghaziabad",
     description:
-      "Approved gated residential plots by Earth Waves Developers at Raj Nagar Extension, Ghaziabad — Delhi NCR. Landscaped living and indoor amenities.",
+      "Approved gated residential plots by Earthwaves Developers at Raj Nagar Extension, Ghaziabad — Delhi NCR. Landscaped living and indoor amenities.",
     images: [
       {
         url: SITE.ogImage,
@@ -42,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Madhavam | Approved Gated Plots in Raj Nagar Extension, Ghaziabad",
     description:
-      "Approved gated residential plots by Earth Waves Developers at Raj Nagar Extension, Ghaziabad — Delhi NCR.",
+      "Approved gated residential plots by Earthwaves Developers at Raj Nagar Extension, Ghaziabad — Delhi NCR.",
     images: [SITE.ogImage],
   },
   alternates: {
@@ -83,6 +87,13 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Noto+Serif+Devanagari:wght@500;600&family=Outfit:wght@300;400;500&display=swap"
           rel="stylesheet"
         />
+        <Script id="microsoft-clarity" strategy="beforeInteractive">
+          {`(function(c,l,a,r,i,t,y){
+c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "z5r5ipm0kz");`}
+        </Script>
       </head>
       <body>{children}</body>
     </html>

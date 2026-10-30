@@ -138,7 +138,7 @@ export default async function HomePage() {
           )}
           lead={String(
             docsSection.lead ??
-              "Official records for Madhavam, supplied by Earth Waves Developers.",
+              "Official records for Madhavam, supplied by Earthwaves Developers.",
           )}
           reraQr={
             (docsSection.reraQr as {

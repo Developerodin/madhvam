@@ -38,7 +38,7 @@ export const DOCUMENTS_SEED: DocumentSeed[] = [
       { label: "Dated", value: "To be confirmed" },
     ],
     noteHtml:
-      "Ghaziabad Development Authority layout approval for Madhavam. Number and date will be published when Earth Waves Developers supplies the file.",
+      "Ghaziabad Development Authority layout approval for Madhavam. Number and date will be published when Earthwaves Developers supplies the file.",
     actionLabel: "Available on request",
     actionPending: true,
   },
@@ -66,7 +66,7 @@ export const DOCUMENTS_SEED: DocumentSeed[] = [
       { label: "Dated", value: "01/09/2026" },
     ],
     noteHtml:
-      "Official brochure for Madhavam by Earth Waves Developers. Scale, amenities, and registration details as published by the developer.",
+      "Official brochure for Madhavam by Earthwaves Developers. Scale, amenities, and registration details as published by the developer.",
     actionLabel: "Download PDF",
     actionHref: "/assets/documents/madhavam-brochure.pdf",
     actionPending: false,
@@ -76,7 +76,7 @@ export const DOCUMENTS_SEED: DocumentSeed[] = [
 export const DOCUMENTS_SECTION_SEED = {
   kicker: "Document Center",
   titleHtml: 'Approvals and <span class="text-gold">paperwork</span>',
-  lead: "Official records for Madhavam, supplied by Earth Waves Developers.",
+  lead: "Official records for Madhavam, supplied by Earthwaves Developers.",
   reraQr: {
     image: "/assets/documents/up-rera-qr.png",
     label: "UP RERA QR",

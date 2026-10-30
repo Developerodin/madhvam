@@ -19,7 +19,7 @@ export const PAGE_SECTIONS_SEED: {
     content: {
       kicker: "Document Center",
       titleHtml: 'Approvals and <span class="text-gold">paperwork</span>',
-      lead: "Official records for Madhavam, supplied by Earth Waves Developers.",
+      lead: "Official records for Madhavam, supplied by Earthwaves Developers.",
       reraQr: {
         image: "/assets/documents/up-rera-qr.png",
         label: "UP RERA QR",

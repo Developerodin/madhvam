@@ -37,7 +37,7 @@ export function Documents({
   documents,
   kicker = "Document Center",
   titleHtml = 'Approvals and <span class="text-gold">paperwork</span>',
-  lead = "Official records for Madhavam, supplied by Earth Waves Developers.",
+  lead = "Official records for Madhavam, supplied by Earthwaves Developers.",
   reraQr = DEFAULT_RERA_QR,
 }: DocumentsProps) {
   const sorted = [...documents].sort((a, b) => a.order - b.order);

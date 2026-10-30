@@ -6,7 +6,7 @@ export const SITE = {
   reraUrl: "https://www.up-rera.in/",
   gstin: "09AADCE7736P1ZX",
   company: "Earthwaves Developers Private Limited",
-  brand: "Earth Waves Developers",
+  brand: "Earthwaves Developers",
   enquiryEmail: "admin@earthwavesdevelopers.com",
   salesEmail: "sales@earthwavesdevelopers.com",
   phone: "+91 80699 82711",

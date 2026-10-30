@@ -2182,7 +2182,7 @@ export const MADHAVAM_PLOTS = {
     "builtUpRatio": 1,
     "disclaimer": "Indicative estimate only. Final charges as per Builder-Buyer Agreement.",
     "notes": [
-      "Dummy calculator — registry %, other %, club/development/maintenance and construction rate are placeholders Earth Waves can update in plots-data.js.",
+      "Dummy calculator — registry %, other %, club/development/maintenance and construction rate are placeholders Earthwaves can update in plots-data.js.",
       "Land cost uses the tentative rate from the project plot list (rate × area)."
     ]
   }

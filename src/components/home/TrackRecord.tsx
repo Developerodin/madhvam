@@ -34,7 +34,7 @@ export function TrackRecord() {
           <li>
             <h3>Plot sizes</h3>
             <span className="pillar-arrow" aria-hidden="true" />
-            <p>Typically 1,080 to 1,125 sq. ft. — planned for family homes.</p>
+            <p>Typically 103 to 125 sq yd — planned for family homes.</p>
           </li>
           <li>
             <h3>On-time delivery</h3>

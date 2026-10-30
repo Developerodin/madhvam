@@ -40,7 +40,7 @@ export function buildHomeJsonLd(
       url: `${site.canonical}/`,
       name: site.name,
       description:
-        "Madhavam by Earth Waves Developers — approved gated residential plots at Raj Nagar Extension, Ghaziabad (Delhi NCR).",
+        "Madhavam by Earthwaves Developers — approved gated residential plots at Raj Nagar Extension, Ghaziabad (Delhi NCR).",
       inLanguage: "en-IN",
       publisher: { "@id": `${site.canonical}/#organization` },
     },

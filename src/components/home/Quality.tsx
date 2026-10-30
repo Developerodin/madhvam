@@ -72,7 +72,7 @@ export function Quality() {
             </h3>
             <span className="pillar-arrow" aria-hidden="true" />
             <p>
-              On Bhatta Road, Bhowapur, Rajnagar Extension — connected to
+              On Harnandipuram Access Road, Rajnagar Extension — connected to
               everyday Ghaziabad life.
             </p>
             <img
@@ -108,7 +108,7 @@ export function Quality() {
             />
             <img
               src="/assets/Elegant%20Banquet%20Hall%20Interior.png"
-              alt="Club Madhavam multi-purpose hall interior by Earth Waves Developers"
+              alt="Club Madhavam multi-purpose hall interior by Earthwaves Developers"
             />
           </picture>
           <div className="developer-scrim" aria-hidden="true" />
