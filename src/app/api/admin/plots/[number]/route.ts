@@ -15,7 +15,17 @@ export async function PATCH(request: NextRequest, context: Ctx) {
   if (!body) return jsonError("Invalid JSON", 400);
 
   await connectDb();
-  const { _id, __v, number: _n, createdAt, updatedAt, ...rest } = body;
+  const {
+    _id,
+    __v,
+    number: _n,
+    createdAt,
+    updatedAt,
+    ratePerSqYd: _rate,
+    amountMonth: _amount,
+    totalPrice: _total,
+    ...rest
+  } = body;
   const updated = await Plot.findOneAndUpdate(
     { number },
     { $set: rest },

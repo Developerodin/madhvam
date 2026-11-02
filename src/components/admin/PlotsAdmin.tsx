@@ -77,7 +77,6 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
   );
   const [bands, setBands] = useState<Band[]>(initialBands);
   const [rows, setRows] = useState<PlotRow[]>(initialPlots);
-  const [applyRateToAll, setApplyRateToAll] = useState(true);
   const [filter, setFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [dirtyPlots, setDirtyPlots] = useState<Set<string>>(new Set());
@@ -134,33 +133,21 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
     setStatus("");
     setError(false);
     try {
-      const rate = pricing.ratePerSqYd;
-      let nextRows = rows;
-      if (applyRateToAll && rate != null && Number.isFinite(rate)) {
-        nextRows = rows.map((p) => ({
-          ...p,
-          ratePerSqYd: rate,
-          amountMonth:
-            p.sizeSqYd != null ? Number((rate * Number(p.sizeSqYd)).toFixed(2)) : p.amountMonth,
-        }));
-        setRows(nextRows);
-      }
-
-      const { plots: _p, ...rest } = initial;
+      const { plots: _p, pricing: _pricing, ...rest } = initial;
+      const bandsForSave = bands.map((band) => {
+        const { tentativeRatePerSqYd: _rate, ...bandRest } = band;
+        return bandRest;
+      });
       const config = {
         ...rest,
-        pricing,
         paymentPlanHighlights: paymentPlanHighlights.filter((x) => x.trim()),
         notes: notes.filter((x) => x.trim()),
-        bands,
+        bands: bandsForSave,
       };
 
       const res = await adminFetch("/api/admin/plots", {
         method: "PUT",
-        body: JSON.stringify({
-          config,
-          plots: applyRateToAll && rate != null ? nextRows : undefined,
-        }),
+        body: JSON.stringify({ config }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -172,11 +159,7 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
       if (data.pricing) setPricing(data.pricing);
       if (Array.isArray(data.bands)) setBands(data.bands);
       setDirtyPlots(new Set());
-      setStatus(
-        applyRateToAll && rate != null
-          ? "Pricing saved and applied to all plots"
-          : "Pricing & notes saved",
-      );
+      setStatus("Notes & bands saved");
     } catch (err) {
       setStatus(err instanceof Error ? err.message : "Save failed");
       setError(true);
@@ -191,19 +174,7 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
     setStatus("");
     setError(false);
     try {
-      const rate =
-        plot.ratePerSqYd != null
-          ? Number(plot.ratePerSqYd)
-          : pricing.ratePerSqYd != null
-            ? Number(pricing.ratePerSqYd)
-            : null;
       const size = plot.sizeSqYd != null ? Number(plot.sizeSqYd) : null;
-      const amountMonth =
-        plot.amountMonth != null
-          ? Number(plot.amountMonth)
-          : rate != null && size != null
-            ? Number((rate * size).toFixed(2))
-            : null;
 
       const payload = {
         status: plot.status,
@@ -212,9 +183,6 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
         sizeSqFt: plot.sizeSqFt != null ? Number(plot.sizeSqFt) : null,
         facing: plot.facing || "",
         dimensions: plot.dimensions || "",
-        ratePerSqYd: rate,
-        amountMonth,
-        totalPrice: plot.totalPrice ?? null,
         mortgage: plot.status === "Mortgage" || Boolean(plot.mortgage),
       };
 
@@ -262,8 +230,8 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
   return (
     <div className="admin-stack">
       <PageHeader
-        title="Plots & pricing"
-        description="Update default rates, band labels, and per-plot size, price, and availability. Changes appear on the public plot map."
+        title="Plots"
+        description="Update band labels, and per-plot size, facing, and availability. Changes appear on the public plot map."
       />
 
       <div className="admin-stat-grid">
@@ -291,7 +259,7 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
 
       <Card
         title="Default pricing"
-        description="Used when a plot has no individual rate. Amount/month = rate × size (sq yd)."
+        description="Pricing edits are locked. Rates are enquiry-only and not published on the public site."
       >
         <FieldGrid>
           <Field label="Rate per sq. yd (₹)" hint="e.g. 31.5 means ₹31.5 / sq yd (tentative)">
@@ -302,12 +270,7 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
               min="0"
               value={numOrEmpty(pricing.ratePerSqYd)}
               placeholder="31.5"
-              onChange={(e) =>
-                setPricing((p) => ({
-                  ...p,
-                  ratePerSqYd: parseNum(e.target.value) ?? undefined,
-                }))
-              }
+              disabled
             />
           </Field>
           <Field label="Currency">
@@ -315,7 +278,7 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
               className="admin-input"
               value={pricing.currency || ""}
               placeholder="INR"
-              onChange={(e) => setPricing((p) => ({ ...p, currency: e.target.value }))}
+              disabled
             />
           </Field>
           <Field label="Price label" hint="Shown when rate is not set, e.g. Tentative / On request">
@@ -323,9 +286,7 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
               className="admin-input"
               value={pricing.priceLabel || ""}
               placeholder="Tentative"
-              onChange={(e) =>
-                setPricing((p) => ({ ...p, priceLabel: e.target.value }))
-              }
+              disabled
             />
           </Field>
           <Field label="Rate note">
@@ -333,18 +294,12 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
               className="admin-input"
               value={pricing.rateNote || ""}
               placeholder="Tentative rate from project plot list (₹/sq yd)…"
-              onChange={(e) =>
-                setPricing((p) => ({ ...p, rateNote: e.target.value }))
-              }
+              disabled
             />
           </Field>
         </FieldGrid>
         <label className="admin-check">
-          <input
-            type="checkbox"
-            checked={applyRateToAll}
-            onChange={(e) => setApplyRateToAll(e.target.checked)}
-          />
+          <input type="checkbox" checked={false} disabled />
           <span>Also apply this rate to every plot when saving</span>
         </label>
       </Card>
@@ -369,7 +324,7 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
 
       <Card
         title="Size bands (legend)"
-        description="Labels and colours for the plot map legend. Rate here is optional band default."
+        description="Labels and colours for the plot map legend. Band rates are locked."
       >
         <div className="admin-table-wrap">
           <table className="admin-table">
@@ -424,11 +379,7 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
                       step="0.01"
                       value={numOrEmpty(band.tentativeRatePerSqYd)}
                       placeholder={numOrEmpty(pricing.ratePerSqYd) || "31.5"}
-                      onChange={(e) =>
-                        updateBand(index, {
-                          tentativeRatePerSqYd: parseNum(e.target.value) ?? undefined,
-                        })
-                      }
+                      disabled
                     />
                   </td>
                 </tr>
@@ -443,12 +394,12 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
         saving={savingConfig}
         status={status}
         error={error}
-        label="Save pricing & notes"
+        label="Save notes & bands"
       />
 
       <Card
         title={`Inventory (${filtered.length}${filtered.length !== rows.length ? ` of ${rows.length}` : ""})`}
-        description="Edit size, rate, and status per plot. Amount/month updates from rate × size when you leave amount blank."
+        description="Edit size, facing, and status per plot. Rate fields are locked."
         actions={
           dirtyPlots.size > 0 ? (
             <button
@@ -548,11 +499,7 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
                         step="0.01"
                         value={numOrEmpty(plot.ratePerSqYd)}
                         placeholder={numOrEmpty(pricing.ratePerSqYd) || "31.5"}
-                        onChange={(e) =>
-                          updatePlot(plot.number, {
-                            ratePerSqYd: parseNum(e.target.value),
-                          })
-                        }
+                        disabled
                       />
                     </td>
                     <td>
@@ -562,11 +509,7 @@ export function PlotsAdmin({ initial }: { initial: Record<string, unknown> }) {
                         step="0.01"
                         value={numOrEmpty(plot.amountMonth)}
                         placeholder="auto"
-                        onChange={(e) =>
-                          updatePlot(plot.number, {
-                            amountMonth: parseNum(e.target.value),
-                          })
-                        }
+                        disabled
                       />
                     </td>
                     <td>
