@@ -99,61 +99,37 @@ export function Plots({ plotsData = MADHAVAM_PLOTS }: PlotsProps) {
             <aside
               className="cost-calc cost-calc--page reveal is-in"
               id="costCalcPage"
-              aria-labelledby="costCalcPageTitle"
-              data-cost-calc="page"
+              aria-label="Approved housing loan facilities"
             >
-              <div className="cost-calc-head">
-                <p className="cost-calc-kicker">Estimate</p>
-                <h3 className="cost-calc-title" id="costCalcPageTitle">
-                  Cost calculator
-                </h3>
-                <p className="cost-calc-lead">
-                  Select a plot for an indicative ownership estimate. Figures are
-                  placeholders until Earthwaves confirm final charges.
-                </p>
-              </div>
-              <div className="cost-calc-field">
-                <span className="cost-calc-label" id="costCalcPlotLabel">
-                  Plot
-                </span>
-                <div className="cost-calc-dd" id="costCalcDropdown">
-                  <button
-                    type="button"
-                    className="cost-calc-dd-trigger"
-                    id="costCalcPlotSelect"
-                    aria-haspopup="listbox"
-                    aria-expanded="false"
-                    aria-controls="costCalcPlotList"
-                    aria-labelledby="costCalcPlotLabel"
-                  >
-                    <span className="cost-calc-dd-value" id="costCalcPlotValue">
-                      Select a plot
-                    </span>
-                    <span className="cost-calc-dd-chevron" aria-hidden="true">
-                      <svg
-                        viewBox="0 0 20 20"
-                        width="16"
-                        height="16"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.8"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M5 7.5l5 5 5-5" />
-                      </svg>
-                    </span>
-                  </button>
-                  <ul
-                    className="cost-calc-dd-menu"
-                    id="costCalcPlotList"
-                    role="listbox"
-                    aria-labelledby="costCalcPlotLabel"
-                    hidden
+              <p className="loan-facilities-line">
+                Approved housing loan facilities available and approved by
+              </p>
+              <ul className="loan-facilities-logos">
+                <li>
+                  <img
+                    src="/assets/hdfc-home-loan.png"
+                    alt="HDFC Bank"
+                    width={916}
+                    height={574}
                   />
-                </div>
-              </div>
-              <div className="cost-calc-body" id="costCalcPageBody" hidden />
+                </li>
+                <li>
+                  <img
+                    src="/assets/icici-home-loan.png"
+                    alt="ICICI Bank"
+                    width={542}
+                    height={220}
+                  />
+                </li>
+                <li>
+                  <img
+                    src="/assets/canara-bank.png"
+                    alt="Canara Bank"
+                    width={1024}
+                    height={640}
+                  />
+                </li>
+              </ul>
             </aside>
           </Reveal>
 
@@ -174,12 +150,12 @@ export function Plots({ plotsData = MADHAVAM_PLOTS }: PlotsProps) {
                   cy="20"
                   r="18"
                   fill="rgba(255,255,255,0.88)"
-                  stroke="#6a1b1b"
+                  stroke="#0E4A32"
                   strokeWidth="1.2"
                 />
                 <path
                   d="M20 8l4.5 18h-3.2l-1.3-5.2-1.3 5.2H15.5L20 8z"
-                  fill="#6a1b1b"
+                  fill="#0E4A32"
                 />
                 <text
                   x="20"
@@ -187,7 +163,7 @@ export function Plots({ plotsData = MADHAVAM_PLOTS }: PlotsProps) {
                   textAnchor="middle"
                   fontSize="7"
                   fontFamily="Outfit, sans-serif"
-                  fill="#6a1b1b"
+                  fill="#0E4A32"
                   fontWeight="600"
                 >
                   N
@@ -202,8 +178,8 @@ export function Plots({ plotsData = MADHAVAM_PLOTS }: PlotsProps) {
             <div>
               <h3 className="plots-panel-title">Plot Size Bands</h3>
               <p className="plots-panel-note">
-                Sizes, tentative rate and amount/month from the project plot list.
-                Tap a band or map plot for full details.
+                Plot sizes and counts from the project plot list. Tap a band or
+                map plot for full details. Pricing is confirmed on enquiry.
               </p>
             </div>
             <span className="plots-total">
@@ -218,8 +194,6 @@ export function Plots({ plotsData = MADHAVAM_PLOTS }: PlotsProps) {
                   <th scope="col">Plot Numbers</th>
                   <th scope="col">Size (sq yd)</th>
                   <th scope="col">No. of Plots</th>
-                  <th scope="col">Tentative Rate (per sq yd)</th>
-                  <th scope="col">Amount / Month (Approx.)</th>
                   <th className="plots-table-chevron" aria-hidden="true" />
                 </tr>
               </thead>
@@ -278,9 +252,8 @@ export function Plots({ plotsData = MADHAVAM_PLOTS }: PlotsProps) {
           </a>
           <div className="plots-disclaimer">
             <p>
-              Tentative rate and amount/month from the project plot list. Final
-              prices, charges and availability are subject to change without prior
-              notice.
+              Final prices, charges and availability are confirmed by Earthwaves
+              Developers and are subject to change without prior notice.
             </p>
             <p>
               Plot areas and dimensions from the project plot list. Map shows 87
@@ -307,9 +280,9 @@ export function Plots({ plotsData = MADHAVAM_PLOTS }: PlotsProps) {
           </svg>
         </span>
         <p>
-          Tentative rate and amount/month from the project plot list. Final figures
-          subject to change. Map shows 87 residential plots plus commercial (12A on
-          plan; 74–75 in list only). Mortgage marks follow the plot list.
+          Final prices and availability are confirmed on enquiry and subject to
+          change. Map shows 87 residential plots plus commercial (12A on plan;
+          74–75 in list only). Mortgage marks follow the plot list.
         </p>
       </div>
 
@@ -331,12 +304,6 @@ export function Plots({ plotsData = MADHAVAM_PLOTS }: PlotsProps) {
           <div className="plot-dialog-tags" id="plotDialogTags" />
           <div className="plot-dialog-price" id="plotDialogPrice" />
           <p className="plot-dialog-status" id="plotDialogStatus" />
-          <div
-            className="cost-calc cost-calc--dialog"
-            id="costCalcDialog"
-            data-cost-calc="dialog"
-            hidden
-          />
           <a
             className="plot-dialog-wa"
             id="plotDialogWa"
@@ -378,12 +345,6 @@ function BandRow({
       <td>{label}</td>
       <td data-band-size>{sizeLabel}</td>
       <td data-band-count>{count}</td>
-      <td className="plots-rate" data-size={size}>
-        —
-      </td>
-      <td className="plots-amount-month" data-size={size}>
-        —
-      </td>
       <td className="plots-table-chevron" aria-hidden="true">
         <span className="plots-chevron" />
       </td>

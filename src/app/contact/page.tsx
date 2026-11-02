@@ -114,6 +114,9 @@ export default async function ContactPage() {
                   <a href={`tel:${site.generalTel}`}>{site.generalPhone}</a>
                 </p>
                 <p>
+                  <a href={`tel:${site.ivrTel}`}>IVR {site.ivr}</a>
+                </p>
+                <p>
                   <a href={site.whatsapp} rel="noopener noreferrer">
                     WhatsApp
                   </a>

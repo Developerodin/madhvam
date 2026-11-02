@@ -25,23 +25,6 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
       plotByNumber.commercial = data.commercial;
     }
 
-    function formatInr(value, digits) {
-      if (value == null || isNaN(value)) return null;
-      var maxDigits = digits == null ? 0 : digits;
-      try {
-        return new Intl.NumberFormat("en-IN", {
-          style: "currency",
-          currency: (data.pricing && data.pricing.currency) || "INR",
-          maximumFractionDigits: maxDigits,
-          minimumFractionDigits: maxDigits > 0 && value % 1 !== 0 ? Math.min(2, maxDigits) : 0
-        }).format(value);
-      } catch (err) {
-        return "₹" + Number(value).toLocaleString("en-IN", {
-          maximumFractionDigits: maxDigits
-        });
-      }
-    }
-
     function padPlot(n) {
       if (typeof n === "string") return n;
       return n < 10 ? "0" + n : String(n);
@@ -70,341 +53,6 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
       else classes.push("is-available");
       if (plot && plot.mortgage) classes.push("is-mortgage");
       return classes.join(" ");
-    }
-
-    function tentativeForPlot(plot) {
-      var rate = plot && plot.ratePerSqYd != null
-        ? plot.ratePerSqYd
-        : (data.pricing && data.pricing.ratePerSqYd);
-      var amount = plot && plot.amountMonth != null
-        ? plot.amountMonth
-        : (rate != null && plot && plot.sizeSqYd != null ? rate * plot.sizeSqYd : null);
-      if (rate == null || rate === "") {
-        return {
-          rateLabel: (data.pricing && data.pricing.priceLabel) || "On request",
-          amountLabel: (data.pricing && data.pricing.priceLabel) || "On request",
-          rate: null,
-          amountMonth: null
-        };
-      }
-      return {
-        rateLabel: formatInr(rate, 2),
-        amountLabel: amount != null ? formatInr(amount, 2) : "—",
-        rate: rate,
-        amountMonth: amount
-      };
-    }
-
-    function tentativeForSize(sizeSqYd) {
-      return tentativeForPlot({ sizeSqYd: sizeSqYd, ratePerSqYd: data.pricing && data.pricing.ratePerSqYd });
-    }
-
-    function calcConfig() {
-      return data.costCalculator || {};
-    }
-
-    function moneyOrPending(value) {
-      if (value == null || value === "" || isNaN(value)) return { label: "To be advised", value: null };
-      return { label: formatInr(value, 0), value: Number(value) };
-    }
-
-    function estimateForPlot(plot) {
-      var cfg = calcConfig();
-      var rate = cfg.landRatePerSqYd != null
-        ? cfg.landRatePerSqYd
-        : (plot && plot.ratePerSqYd != null
-          ? plot.ratePerSqYd
-          : (data.pricing && data.pricing.ratePerSqYd));
-      var areaYd = plot && plot.sizeSqYd != null ? Number(plot.sizeSqYd) : null;
-      var areaFt = plot && plot.sizeSqFt != null
-        ? Number(plot.sizeSqFt)
-        : (areaYd != null ? Math.round(areaYd * 9) : null);
-      var builtUpRatio = cfg.builtUpRatio != null ? Number(cfg.builtUpRatio) : 1;
-      var builtUpFt = areaFt != null ? areaFt * builtUpRatio : null;
-
-      var landCost = rate != null && areaYd != null ? rate * areaYd : null;
-      var registryPct = cfg.registryPct != null ? Number(cfg.registryPct) : null;
-      var otherPct = cfg.otherChargesPct != null ? Number(cfg.otherChargesPct) : null;
-      var registry = landCost != null && registryPct != null ? landCost * (registryPct / 100) : null;
-      var otherCharges = landCost != null && otherPct != null ? landCost * (otherPct / 100) : null;
-      var club = cfg.clubCharge;
-      var development = cfg.developmentCharge;
-      var maintenance = cfg.maintenanceCharge;
-      var constructionRate = cfg.constructionRatePerSqFt;
-      var construction = constructionRate != null && builtUpFt != null
-        ? Number(constructionRate) * builtUpFt
-        : null;
-
-      var parts = [landCost, registry, otherCharges, club, development, maintenance, construction];
-      var total = 0;
-      var hasTotal = false;
-      parts.forEach(function (part) {
-        if (part != null && !isNaN(part)) {
-          total += Number(part);
-          hasTotal = true;
-        }
-      });
-
-      return {
-        plot: plot,
-        rate: rate,
-        areaYd: areaYd,
-        areaFt: areaFt,
-        builtUpFt: builtUpFt,
-        landCost: landCost,
-        registryPct: registryPct,
-        registry: registry,
-        otherPct: otherPct,
-        otherCharges: otherCharges,
-        club: club,
-        development: development,
-        maintenance: maintenance,
-        constructionRate: constructionRate,
-        construction: construction,
-        total: hasTotal ? total : null,
-        disclaimer: cfg.disclaimer ||
-          "Indicative estimate only. Final charges as per Builder-Buyer Agreement."
-      };
-    }
-
-    function estimateRowsHtml(est) {
-      function row(label, detail, amount) {
-        var money = moneyOrPending(amount);
-        var detailHtml = detail
-          ? '<span class="cost-calc-detail">' + detail + "</span>"
-          : "";
-        return (
-          '<div class="cost-calc-row">' +
-            '<div class="cost-calc-row-label"><span>' + label + "</span>" + detailHtml + "</div>" +
-            '<div class="cost-calc-row-value">' + money.label + "</div>" +
-          "</div>"
-        );
-      }
-
-      var landDetail = est.rate != null && est.areaYd != null
-        ? formatInr(est.rate, 2) + " × " + formatArea(est.areaYd) + " sq yd"
-        : "";
-      var registryDetail = est.registryPct != null ? est.registryPct + "% of land cost" : "";
-      var otherDetail = est.otherPct != null ? est.otherPct + "% of land cost" : "";
-      var constructionDetail = est.constructionRate != null && est.builtUpFt != null
-        ? formatInr(est.constructionRate, 0) + " × " + formatArea(est.builtUpFt, 0) + " sq ft"
-        : "Rate to be advised";
-
-      return (
-        row("Land cost", landDetail, est.landCost) +
-        row("Registry &amp; stamp duty", registryDetail, est.registry) +
-        row("Other charges", otherDetail, est.otherCharges) +
-        row("Club charges", "Placeholder — to be supplied", est.club) +
-        row("Development charges", "Placeholder — to be supplied", est.development) +
-        row("Maintenance charges", "Placeholder — to be supplied", est.maintenance) +
-        row("Approx. construction cost", constructionDetail, est.construction) +
-        '<div class="cost-calc-row cost-calc-row--total">' +
-          '<div class="cost-calc-row-label"><span>Total estimated cost</span>' +
-            '<span class="cost-calc-detail">Owning a built home (indicative)</span></div>' +
-          '<div class="cost-calc-row-value">' + moneyOrPending(est.total).label + "</div>" +
-        "</div>"
-      );
-    }
-
-    function estimateFormHtml(formId) {
-      return (
-        '<p class="cost-calc-disclaimer">' +
-          (calcConfig().disclaimer ||
-            "Indicative estimate only. Final charges as per Builder-Buyer Agreement.") +
-        "</p>" +
-        '<form class="cost-calc-wa-form" id="' + formId + '" novalidate>' +
-          '<p class="cost-calc-wa-title">Get this estimate on WhatsApp</p>' +
-          '<label class="cost-calc-field">' +
-            '<span class="cost-calc-label">Name</span>' +
-            '<input type="text" name="name" autocomplete="name" required placeholder="Your name" />' +
-          "</label>" +
-          '<label class="cost-calc-field">' +
-            '<span class="cost-calc-label">Phone</span>' +
-            '<input type="tel" name="phone" autocomplete="tel" required placeholder="10-digit mobile" inputmode="numeric" maxlength="14" />' +
-          "</label>" +
-          '<button type="submit" class="cost-calc-wa-btn">Get this estimate on WhatsApp</button>' +
-        "</form>"
-      );
-    }
-
-    function renderEstimateBody(container, plot, formId, opts) {
-      if (!container || !plot) return null;
-      var est = estimateForPlot(plot);
-      var label = plotLabel(plot);
-      var withTitle = opts && opts.showTitle;
-      container.hidden = false;
-      container.innerHTML =
-        (withTitle
-          ? '<p class="cost-calc-kicker">Estimate</p><h4 class="cost-calc-title">Cost calculator</h4>'
-          : "") +
-        '<p class="cost-calc-summary">Plot <strong>' + label + "</strong> · " +
-          formatArea(est.areaYd) + " sq yd · Tentative land rate " +
-          (est.rate != null ? formatInr(est.rate, 2) : "—") + "/sq yd</p>" +
-        '<div class="cost-calc-rows">' + estimateRowsHtml(est) + "</div>" +
-        estimateFormHtml(formId);
-      bindEstimateForm(container.querySelector("#" + formId), plot, est);
-      return est;
-    }
-
-    function estimateWhatsAppMessage(plot, est, name, phone) {
-      var label = plot.isCommercial ? "Commercial plot" : ("Plot " + plotLabel(plot));
-      var lines = [
-        "Hi, I'd like this Madhavam cost estimate on WhatsApp.",
-        "Name: " + name,
-        "Phone: " + phone,
-        label + (est.areaYd != null ? (" · " + formatArea(est.areaYd) + " sq yd") : ""),
-        "Land cost: " + moneyOrPending(est.landCost).label,
-        "Registry (" + (est.registryPct != null ? est.registryPct + "%" : "—") + "): " +
-          moneyOrPending(est.registry).label,
-        "Other (" + (est.otherPct != null ? est.otherPct + "%" : "—") + "): " +
-          moneyOrPending(est.otherCharges).label,
-        "Club: " + moneyOrPending(est.club).label,
-        "Development: " + moneyOrPending(est.development).label,
-        "Maintenance: " + moneyOrPending(est.maintenance).label,
-        "Construction: " + moneyOrPending(est.construction).label,
-        "Total (indicative): " + moneyOrPending(est.total).label,
-        "Note: Indicative estimate only. Final charges as per Builder-Buyer Agreement."
-      ];
-      return lines.join("\n");
-    }
-
-    function bindEstimateForm(form, plot, est) {
-      if (!form) return;
-      form.addEventListener("submit", function (event) {
-        event.preventDefault();
-        var nameInput = form.querySelector('[name="name"]');
-        var phoneInput = form.querySelector('[name="phone"]');
-        var name = nameInput ? String(nameInput.value || "").trim() : "";
-        var phone = phoneInput ? String(phoneInput.value || "").trim() : "";
-        if (!name) {
-          if (nameInput) nameInput.focus();
-          return;
-        }
-        if (!phone || phone.replace(/\D/g, "").length < 10) {
-          if (phoneInput) phoneInput.focus();
-          return;
-        }
-        var url = WA_BASE + "?text=" + encodeURIComponent(
-          estimateWhatsAppMessage(plot, est, name, phone)
-        );
-        window.open(url, "_blank", "noopener,noreferrer");
-      });
-    }
-
-    var costCalcDd = {
-      root: document.getElementById("costCalcDropdown"),
-      trigger: document.getElementById("costCalcPlotSelect"),
-      valueEl: document.getElementById("costCalcPlotValue"),
-      list: document.getElementById("costCalcPlotList"),
-      value: ""
-    };
-
-    function setCalcOpen(open) {
-      var top = section.querySelector(".plots-top");
-      if (!top) return;
-      top.classList.toggle("is-calc-open", Boolean(open));
-    }
-
-    function setCostCalcDdOpen(open) {
-      if (!costCalcDd.root || !costCalcDd.trigger || !costCalcDd.list) return;
-      costCalcDd.root.classList.toggle("is-open", Boolean(open));
-      costCalcDd.trigger.setAttribute("aria-expanded", open ? "true" : "false");
-      costCalcDd.list.hidden = !open;
-    }
-
-    function setCostCalcDdValue(value, label, silent) {
-      costCalcDd.value = value || "";
-      if (costCalcDd.valueEl) {
-        costCalcDd.valueEl.textContent = label || "Select a plot";
-      }
-      if (costCalcDd.list) {
-        costCalcDd.list.querySelectorAll('[role="option"]').forEach(function (opt) {
-          var on = opt.getAttribute("data-value") === costCalcDd.value;
-          opt.setAttribute("aria-selected", on ? "true" : "false");
-          opt.classList.toggle("is-selected", on);
-        });
-      }
-      if (!silent) {
-        if (!costCalcDd.value) syncPageCostCalc(null);
-        else {
-          var plot = costCalcDd.value === "commercial"
-            ? plotByNumber.commercial
-            : plotByNumber[Number(costCalcDd.value)];
-          if (plot) syncPageCostCalc(plot);
-        }
-      }
-    }
-
-    function populateCostCalcSelect() {
-      if (!costCalcDd.list) return;
-      var current = costCalcDd.value;
-      costCalcDd.list.replaceChildren();
-
-      function addOption(value, label) {
-        var li = document.createElement("li");
-        li.setAttribute("role", "option");
-        li.setAttribute("data-value", value);
-        li.setAttribute("tabindex", "-1");
-        li.textContent = label;
-        li.addEventListener("click", function () {
-          setCostCalcDdValue(value, label, false);
-          setCostCalcDdOpen(false);
-          if (costCalcDd.trigger) costCalcDd.trigger.focus();
-        });
-        costCalcDd.list.appendChild(li);
-      }
-
-      addOption("", "Select a plot");
-      (data.plots || []).forEach(function (plot) {
-        addOption(
-          String(plot.number),
-          "Plot " + plotLabel(plot) + " · " + formatArea(plot.sizeSqYd) + " sq yd"
-        );
-      });
-      if (data.commercial) {
-        addOption(
-          "commercial",
-          "Commercial · " + formatArea(data.commercial.sizeSqYd) + " sq yd"
-        );
-      }
-
-      if (current) {
-        var match = costCalcDd.list.querySelector('[data-value="' + current + '"]');
-        setCostCalcDdValue(current, match ? match.textContent : "Select a plot", true);
-      } else {
-        setCostCalcDdValue("", "Select a plot", true);
-      }
-    }
-
-    function syncPageCostCalc(plot) {
-      var body = document.getElementById("costCalcPageBody");
-      if (!body) return;
-      if (!plot) {
-        body.hidden = true;
-        body.innerHTML = "";
-        setCostCalcDdValue("", "Select a plot", true);
-        setCalcOpen(false);
-        return;
-      }
-      var key = plot.isCommercial ? "commercial" : String(plot.number);
-      var label = plot.isCommercial
-        ? ("Commercial · " + formatArea(plot.sizeSqYd) + " sq yd")
-        : ("Plot " + plotLabel(plot) + " · " + formatArea(plot.sizeSqYd) + " sq yd");
-      setCostCalcDdValue(key, label, true);
-      renderEstimateBody(body, plot, "costCalcPageWaForm");
-      setCalcOpen(true);
-    }
-
-    function hydratePrices() {
-      section.querySelectorAll(".plots-rate").forEach(function (cell) {
-        var size = Number(cell.getAttribute("data-size"));
-        cell.textContent = tentativeForSize(size).rateLabel;
-      });
-      section.querySelectorAll(".plots-amount-month").forEach(function (cell) {
-        var size = Number(cell.getAttribute("data-size"));
-        var priced = tentativeForSize(size);
-        cell.textContent = priced.amountLabel;
-      });
     }
 
     function hydrateBandTable() {
@@ -609,7 +257,6 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
       var price = document.getElementById("plotDialogPrice");
       var statusEl = document.getElementById("plotDialogStatus");
       var wa = document.getElementById("plotDialogWa");
-      var priced = tentativeForPlot(plot);
       var label = plotLabel(plot);
 
       if (title) {
@@ -648,10 +295,9 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
         }).join("");
       }
       if (price) {
-        price.innerHTML =
-          "<span>Tentative rate (per sq yd)</span><strong>" + priced.rateLabel + "</strong>" +
-          "<span style=\"display:block;margin-top:0.55rem\">Amount / month (as per list)</span><strong>" +
-          priced.amountLabel + "</strong>";
+        // Public site no longer surfaces tentative rate / amount-month
+        price.replaceChildren();
+        price.hidden = true;
       }
       if (statusEl) {
         var statusText = plot.status || "Available";
@@ -665,16 +311,6 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
           ? "Enquire about commercial plot"
           : "Enquire about this plot";
       }
-
-      var dialogCalc = document.getElementById("costCalcDialog");
-      if (dialogCalc && calcConfig().enabled !== false) {
-        dialogCalc.hidden = false;
-        renderEstimateBody(dialogCalc, plot, "costCalcDialogWaForm", { showTitle: true });
-      } else if (dialogCalc) {
-        dialogCalc.hidden = true;
-        dialogCalc.innerHTML = "";
-      }
-      syncPageCostCalc(plot);
 
       section.querySelectorAll(".plot.is-active").forEach(function (node) {
         node.classList.remove("is-active");
@@ -762,53 +398,8 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
       return plotByNumber[Number(key)];
     }
 
-    hydratePrices();
     hydrateBandTable();
-    populateCostCalcSelect();
     renderMap();
-
-    if (costCalcDd.trigger && costCalcDd.root) {
-      costCalcDd.trigger.addEventListener("click", function () {
-        setCostCalcDdOpen(!costCalcDd.root.classList.contains("is-open"));
-      });
-      costCalcDd.trigger.addEventListener("keydown", function (event) {
-        if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          setCostCalcDdOpen(true);
-          var first = costCalcDd.list && costCalcDd.list.querySelector('[role="option"]');
-          if (first) first.focus();
-        } else if (event.key === "Escape") {
-          setCostCalcDdOpen(false);
-        }
-      });
-      if (costCalcDd.list) {
-        costCalcDd.list.addEventListener("keydown", function (event) {
-          var options = Array.prototype.slice.call(
-            costCalcDd.list.querySelectorAll('[role="option"]')
-          );
-          var index = options.indexOf(document.activeElement);
-          if (event.key === "ArrowDown") {
-            event.preventDefault();
-            if (options[index + 1]) options[index + 1].focus();
-          } else if (event.key === "ArrowUp") {
-            event.preventDefault();
-            if (options[index - 1]) options[index - 1].focus();
-            else if (costCalcDd.trigger) costCalcDd.trigger.focus();
-          } else if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            if (document.activeElement && document.activeElement.click) {
-              document.activeElement.click();
-            }
-          } else if (event.key === "Escape") {
-            setCostCalcDdOpen(false);
-            if (costCalcDd.trigger) costCalcDd.trigger.focus();
-          }
-        });
-      }
-      document.addEventListener("click", function (event) {
-        if (!costCalcDd.root.contains(event.target)) setCostCalcDdOpen(false);
-      });
-    }
 
     if (svg) {
       svg.addEventListener("click", function (event) {

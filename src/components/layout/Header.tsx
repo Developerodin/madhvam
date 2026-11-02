@@ -18,15 +18,12 @@ export function Header({ solid }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const needsDark = forceSolid || scrolled || menuOpen;
-  const logoSrc = needsDark ? site.logoDark : site.logoLight;
+  const logoSrc = site.logoLight;
 
   useEffect(() => {
-    const dark = new Image();
-    dark.src = site.logoDark;
     const light = new Image();
     light.src = site.logoLight;
-  }, [site.logoDark, site.logoLight]);
+  }, [site.logoLight]);
 
   useEffect(() => {
     function onScroll() {
@@ -72,7 +69,6 @@ export function Header({ solid }: HeaderProps) {
                 height={612}
                 data-brand=""
                 data-logo-light={site.logoLight}
-                data-logo-dark={site.logoDark}
               />
               <span className="brand-fallback brand-name" aria-hidden="true">
                 {site.name}

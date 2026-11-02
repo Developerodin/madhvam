@@ -1,9 +1,9 @@
-import { getPlotsPayload } from "@/lib/content/getters";
+import { getPublicPlotsPayload } from "@/lib/content/getters";
 import { jsonError, jsonOk } from "@/lib/api";
 
 export async function GET() {
   try {
-    const plots = await getPlotsPayload();
+    const plots = await getPublicPlotsPayload();
     return jsonOk(plots);
   } catch (err) {
     return jsonError(

@@ -6,16 +6,39 @@ export function Quality() {
     <section className="paper band" id="quality">
       <div className="sheet">
         <div className="quality-head">
-          <div>
+          <div className="quality-intro">
+            <p className="quality-kicker">
+              <span className="quality-kicker-arrows" aria-hidden="true">
+                <svg viewBox="0 0 120 16" width="120" height="16" focusable="false">
+                  <line
+                    x1="0"
+                    y1="8"
+                    x2="120"
+                    y2="8"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                  />
+                </svg>
+              </span>
+              <span className="quality-kicker-text">Why Us</span>
+              <span className="quality-kicker-arrows" aria-hidden="true">
+                <svg viewBox="0 0 120 16" width="120" height="16" focusable="false">
+                  <line
+                    x1="0"
+                    y1="8"
+                    x2="120"
+                    y2="8"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                  />
+                </svg>
+              </span>
+            </p>
             <Reveal as="h2">
               <span className="quality-lead">Built to last.</span>
               <br />
               <span className="quality-accent">Finished with care.</span>
             </Reveal>
-            <div className="title-arrows title-arrows--start" aria-hidden="true">
-              <span className="pillar-arrow pillar-arrow--flip" />
-              <span className="pillar-arrow" />
-            </div>
           </div>
           <picture className="quality-landscape">
             <source

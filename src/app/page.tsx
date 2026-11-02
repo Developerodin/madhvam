@@ -14,8 +14,9 @@ import {
   getFaqsPayload,
   getGalleryPayload,
   getPageSectionsPayload,
-  getPlotsPayload,
+  getPublicPlotsPayload,
   getSiteSettings,
+  toPublicPlotsPayload,
 } from "@/lib/content/getters";
 import { fallbackSite } from "@/lib/site-fallback";
 import { MADHAVAM_PLOTS } from "@/data/plots";
@@ -79,10 +80,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function HomePage() {
   let site = fallbackSite;
-  let plotsData: Record<string, unknown> = MADHAVAM_PLOTS as unknown as Record<
-    string,
-    unknown
-  >;
+  let plotsData: Record<string, unknown> = toPublicPlotsPayload(
+    MADHAVAM_PLOTS as unknown as Record<string, unknown>,
+  ) as Record<string, unknown>;
   let gallery = { slides: undefined as undefined | Awaited<ReturnType<typeof getGalleryPayload>>["slides"], filters: undefined as undefined | Awaited<ReturnType<typeof getGalleryPayload>>["filters"] };
   let faqs = FAQS_SEED.map((f, i) => ({
     id: `seed-${i}`,
@@ -97,7 +97,7 @@ export default async function HomePage() {
   try {
     const bundle = await Promise.all([
       getSiteSettings(),
-      getPlotsPayload(),
+      getPublicPlotsPayload(),
       getGalleryPayload(),
       getFaqsPayload(),
       getDocumentsPayload(),

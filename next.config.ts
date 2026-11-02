@@ -22,7 +22,8 @@ const securityHeaders: { key: string; value: string }[] = [
       "font-src 'self' https://fonts.gstatic.com data:",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       // Next.js / React Compiler need unsafe-inline; unsafe-eval mainly for local/dev tooling
-      `script-src 'self' 'unsafe-inline'${isProd ? "" : " 'unsafe-eval'"}`,
+      // Microsoft Clarity: www.clarity.ms (loader) + scripts.clarity.ms (runtime)
+      `script-src 'self' 'unsafe-inline' https://www.clarity.ms https://scripts.clarity.ms${isProd ? "" : " 'unsafe-eval'"}`,
       "connect-src 'self' https: http://127.0.0.1:* http://localhost:*",
       "form-action 'self'",
       ...(isProd ? ["upgrade-insecure-requests"] : []),

@@ -2,6 +2,7 @@
   --cream: #f3eee4;
   --cream-deep: #e7e0d2;
   --burgundy: #6a1b1b;
+  --green: #0E4A32;
   --green-word: #1b6b3a;
   --footer-bg: var(--burgundy);
   --gold: #c6a35a;
@@ -72,7 +73,7 @@ p { margin: 0 0 1rem; }
 .band { padding: 6.5rem 0; }
 
 /* Adjacent cream bands share one background, so stacked padding reads as a double gap.
-   Document Center is burgundy, so keep full padding into and out of that band. */
+   Document Center is dark green, so keep full padding into and out of that band. */
 .paper.band + .paper.band:not(.documents) { padding-top: 0; }
 .documents.paper.band + .paper.band { padding-top: 6.5rem; }
 
@@ -192,8 +193,8 @@ p { margin: 0 0 1rem; }
 .site-header.is-scrolled .btn-nav,
 .site-header.is-solid .btn-nav,
 .legal-page .site-header .btn-nav {
-  background: var(--burgundy);
-  border-color: var(--burgundy);
+  background: var(--green);
+  border-color: var(--green);
   color: var(--cream);
 }
 
@@ -303,7 +304,7 @@ p { margin: 0 0 1rem; }
   .navbar-collapse:not(.show) {
     display: none !important;
   }
-
+  .documents.paper.band + .paper.band { padding-top: 3.5rem; }
   .site-header:has(.navbar-collapse.show) {
     background: var(--cream);
     color: var(--ink);
@@ -349,7 +350,7 @@ p { margin: 0 0 1rem; }
     align-self: flex-end;
     margin-left: 0;
     display: inline-block;
-    background: var(--burgundy);
+    background: var(--green);
     color: var(--cream);
     font-size: 15.5px;
     padding: 0.69rem 0.99rem;
@@ -449,7 +450,7 @@ p { margin: 0 0 1rem; }
 
 .btn-hero {
   background: var(--cream);
-  color: var(--burgundy);
+  color: var(--green);
   border-color: var(--cream);
 }
 
@@ -658,7 +659,7 @@ p { margin: 0 0 1rem; }
   height: 2.55rem;
   font-size: 14.5px;
   color: var(--cream);
-  background: var(--burgundy);
+  background: var(--green);
   border: 1px solid var(--gold);
   border-radius: 50%;
 }
@@ -1170,11 +1171,45 @@ p { margin: 0 0 1rem; }
   gap: 1.25rem 2rem;
 }
 
+.quality-intro {
+  min-width: 0;
+  text-align: left;
+}
+
 .quality-head h2 { margin-bottom: 0.35rem; }
 
-.quality-head .title-arrows {
-  margin: 0.5rem 0 1rem;
-  width: min(100%, 18rem);
+.quality-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0.7rem;
+  width: 100%;
+  margin: 0 0 0.55rem;
+  color: var(--gold);
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+.quality-kicker-text {
+  flex: 0 0 auto;
+  color: var(--gold);
+}
+
+.quality-kicker-arrows {
+  display: block;
+  flex: 0 0 auto;
+  color: var(--gold);
+  line-height: 0;
+}
+
+.quality-kicker-arrows svg {
+  display: block;
+  width: 6.5rem;
+  height: 1rem;
 }
 
 .quality-landscape { display: none; }
@@ -1187,7 +1222,7 @@ p { margin: 0 0 1rem; }
 .pillar-grid h3 {
   margin-bottom: 0.55rem;
   font-size: 2.25rem;
-  color: var(--burgundy);
+  color: var(--green);
 }
 
 .pillar-arrow {
@@ -1374,7 +1409,7 @@ p { margin: 0 0 1rem; }
   --loc-gold: #d4b06a;
   --map-size: min(30vw, 360px);
   position: relative;
-  background-color: var(--burgundy);
+  background-color: var(--green);
   color: #f3eee4;
 }
 
@@ -1562,6 +1597,18 @@ p { margin: 0 0 1rem; }
 .location-map:focus-visible {
   outline: 2px solid #f3eee4;
   outline-offset: 4px;
+}
+
+.location-extras {
+  margin: 2rem auto 0;
+  max-width: 42rem;
+  text-align: center;
+  color: var(--loc-gold);
+  font-family: var(--sans);
+  font-size: clamp(0.92rem, 1.35vw, 1.05rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.55;
 }
 
 .location-connect { display: none; }
@@ -1772,6 +1819,13 @@ p { margin: 0 0 1rem; }
     margin: 0.15rem 0 1.85rem;
   }
 
+  .location-extras {
+    grid-column: 1 / -1;
+    order: 5;
+    margin: 0.35rem 0 0.5rem;
+    max-width: none;
+  }
+
   .location-connect-kicker {
     display: flex;
     align-items: center;
@@ -1975,7 +2029,7 @@ p { margin: 0 0 1rem; }
 .aaradhayam-facts h3 {
   margin: 0 0 0.55rem;
   font-size: clamp(1.5rem, 2.8vw, 1.85rem);
-  color: var(--burgundy);
+  color: var(--green);
   line-height: 1.15;
 }
 
@@ -2100,7 +2154,7 @@ p { margin: 0 0 1rem; }
   font-family: var(--serif);
   font-size: clamp(1.35rem, 2.2vw, 1.85rem);
   line-height: 1.3;
-  color: #6a1b1b;
+  color: var(--green);
   padding: 1.15rem 2.5rem 1.15rem 0;
   position: relative;
   font-weight: 600;
@@ -2158,8 +2212,8 @@ p { margin: 0 0 1rem; }
 
 .faq-more-btn:hover,
 .faq-more-btn:focus-visible {
-  color: var(--burgundy);
-  border-color: var(--burgundy);
+  color: var(--green);
+  border-color: var(--green);
   outline: none;
 }
 
@@ -2177,7 +2231,7 @@ p { margin: 0 0 1rem; }
 /* Document Center */
 
 .documents {
-  background-color: var(--burgundy);
+  background-color: var(--green);
   color: #f3eee4;
 }
 #documentsTitle {
@@ -2451,7 +2505,7 @@ p { margin: 0 0 1rem; }
   text-underline-offset: 0.15em;
 }
 
-.documents-rera-note a:hover { color: var(--burgundy); }
+.documents-rera-note a:hover { color: var(--green); }
 
 @media (min-width: 768px) {
   .documents-tabs {
@@ -2522,7 +2576,7 @@ p { margin: 0 0 1rem; }
 
 .enquiry .form-control:focus {
   background: transparent;
-  border-color: var(--burgundy);
+  border-color: var(--green);
   box-shadow: none;
 }
 
@@ -2531,9 +2585,9 @@ p { margin: 0 0 1rem; }
 .was-validated .form-control:invalid ~ .invalid { display: block; }
 
 .btn-solid {
-  background: var(--burgundy);
+  background: var(--green);
   color: var(--cream);
-  border-color: var(--burgundy);
+  border-color: var(--green);
   margin-top: 0.4rem;
 }
 
@@ -2578,7 +2632,6 @@ p { margin: 0 0 1rem; }
 .footer-main {
   display: grid;
   gap: 2.25rem;
-
   margin-inline: auto;
 }
 
@@ -2586,8 +2639,10 @@ p { margin: 0 0 1rem; }
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-self: center;
   gap: 1.15rem;
   text-align: center;
+  order: 0;
 }
 
 .footer-logo {
@@ -2598,9 +2653,24 @@ p { margin: 0 0 1rem; }
 }
 
 .footer-logo img {
-  height: 92px;
+  height: 132px;
   width: auto;
-  max-width: min(420px, 82vw);
+  max-width: min(420px, 78vw);
+  object-fit: contain;
+}
+
+.footer-avatar {
+  display: grid;
+  justify-items: center;
+  width: min(100%, 12rem);
+  margin-inline: auto;
+  order: 1;
+}
+
+.footer-avatar img {
+  display: block;
+  width: 100%;
+  height: auto;
   object-fit: contain;
 }
 
@@ -2614,6 +2684,7 @@ p { margin: 0 0 1rem; }
   width: min(100%, 28rem);
   margin-inline: auto;
   text-align: left;
+  order: 3;
 }
 
 .footer-quick {
@@ -2623,6 +2694,7 @@ p { margin: 0 0 1rem; }
   margin-inline: auto;
   text-align: left;
   justify-items: start;
+  order: 2;
 }
 
 .footer-contact-title,
@@ -2734,6 +2806,7 @@ a.footer-contact-value:hover {
 .footer-art {
   width: min(100%, 34rem);
   margin-inline: auto;
+  order: 4;
 }
 
 .footer-landscape {
@@ -2918,13 +2991,36 @@ section[id],
   }
 
   .footer-brand {
-    align-items: flex-start;
-    text-align: left;
+    grid-column: 1 / -1;
+    justify-self: center;
+    align-items: center;
+    text-align: center;
     gap: 1.35rem;
+    order: unset;
+    margin-bottom: 0.5rem;
   }
 
   .footer-logo img {
-    height: 112px;
+    height: 160px;
+    max-width: min(480px, 42vw);
+  }
+
+  .footer-avatar {
+    display: grid;
+    width: auto;
+    max-width: 14rem;
+    margin: 0;
+    justify-items: start;
+    order: unset;
+    padding-top: 0.35rem;
+  }
+
+  .footer-avatar img {
+    max-height: 14rem;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: left top;
   }
 
   .footer-vrule {
@@ -2934,6 +3030,7 @@ section[id],
     width: 1px;
     min-height: 12rem;
     margin: 0.5rem 0;
+    order: unset;
     background: linear-gradient(
       180deg,
       rgba(198, 163, 90, 0) 0%,
@@ -2959,12 +3056,14 @@ section[id],
     width: auto;
     margin: 0;
     gap: 1rem;
+    order: unset;
   }
 
   .footer-quick {
     width: auto;
     margin: 0;
     align-self: start;
+    order: unset;
   }
 
   .footer-contact-title,
@@ -2981,6 +3080,7 @@ section[id],
     width: auto;
     margin: 0;
     padding-top: 0.35rem;
+    order: unset;
   }
 
   .footer-landscape img {
@@ -3149,10 +3249,26 @@ section[id],
   }
 }
 
+@media (max-width: 991.98px) {
+  .quality-intro {
+    width: 100%;
+    text-align: center;
+  }
+
+  .quality-intro h2 {
+    text-align: center;
+  }
+
+  .quality-kicker {
+    justify-content: center;
+    margin-bottom: 0.85rem;
+  }
+}
+
 @media (max-width: 575.98px) {
   .quality-accent { font-size: 2.5rem; }
   .site-footer { padding-top: 3rem; }
-  .footer-logo img { height: 84px; }
+  .footer-logo img { height: 120px; }
   .footer-rera { letter-spacing: 0.04em; }
   .wa-float {
     right: 1rem;
@@ -3189,12 +3305,12 @@ section[id],
 
 .legal-kicker a { text-decoration: none; }
 
-.legal-kicker a:hover { color: var(--burgundy); }
+.legal-kicker a:hover { color: var(--green); }
 
 .legal-prose h1 {
   font-size: clamp(2.4rem, 5vw, 3.6rem);
   line-height: 1.05;
-  color: var(--burgundy);
+  color: var(--green);
   margin-bottom: 0.75rem;
 }
 
@@ -3240,7 +3356,7 @@ section[id],
 .legal-prose li { margin-bottom: 0.4rem; }
 
 .legal-prose a {
-  color: var(--burgundy);
+  color: var(--green);
   text-underline-offset: 0.15em;
 }
 
@@ -3324,7 +3440,7 @@ section[id],
 
 .plots-title {
   margin: 0 0 1rem;
-  color: var(--burgundy);
+  color: var(--green);
   font-size: clamp(2.75rem, 5.5vw, 4rem);
   line-height: 0.95;
   text-align: center;
@@ -3356,8 +3472,45 @@ section[id],
   width: 100%;
   margin-top: 1.75rem;
   margin-inline: 0;
-  text-align: left;
+  text-align: center;
   box-sizing: border-box;
+}
+
+.loan-facilities-line {
+  margin: 0 0 1rem;
+  color: var(--green);
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.loan-facilities-logos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  align-items: center;
+  justify-items: center;
+}
+
+.loan-facilities-logos li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 3.25rem;
+}
+
+.loan-facilities-logos img {
+  display: block;
+  width: 100%;
+  max-width: 7.5rem;
+  height: auto;
+  max-height: 3.5rem;
+  object-fit: contain;
 }
 
 .plots-map {
@@ -3546,7 +3699,7 @@ section[id],
   padding: 0.55rem 0.9rem;
   border: 0;
   border-radius: 999px;
-  background: var(--burgundy);
+  background: var(--green);
   color: #fff;
   font-size: 0.78rem;
   font-weight: 500;
@@ -3634,7 +3787,7 @@ section[id],
 
 .plots-panel-title {
   margin: 0 0 0.45rem;
-  color: var(--burgundy);
+  color: var(--green);
   font-size: clamp(1.75rem, 3vw, 2.25rem);
 }
 
@@ -3653,7 +3806,7 @@ section[id],
   padding: 0.4rem 0.85rem;
   border-radius: 999px;
   background: #f3e2c4;
-  color: var(--burgundy);
+  color: var(--green);
   font-size: 0.85rem;
   white-space: nowrap;
 }
@@ -3684,7 +3837,7 @@ section[id],
 }
 
 .plots-table thead th {
-  background: var(--burgundy);
+  background: var(--green);
   color: #fff;
   font-weight: 500;
   font-size: 0.82rem;
@@ -3737,8 +3890,8 @@ section[id],
   display: inline-block;
   width: 0.45rem;
   height: 0.45rem;
-  border-right: 2px solid var(--burgundy);
-  border-bottom: 2px solid var(--burgundy);
+  border-right: 2px solid var(--green);
+  border-bottom: 2px solid var(--green);
   transform: rotate(-45deg);
   opacity: 0.7;
 }
@@ -3758,7 +3911,7 @@ section[id],
   appearance: none;
   border: 1px solid rgba(106, 27, 27, 0.25);
   background: #fff;
-  color: var(--burgundy);
+  color: var(--green);
   border-radius: 999px;
   padding: 0.35rem 0.7rem;
   font-size: 0.8rem;
@@ -3768,7 +3921,7 @@ section[id],
 
 .plots-chip:hover,
 .plots-chip:focus-visible {
-  border-color: var(--burgundy);
+  border-color: var(--green);
   background: #f8efe3;
   outline: none;
 }
@@ -3910,7 +4063,7 @@ section[id],
 
 .plots-disclaimer-ico {
   flex-shrink: 0;
-  color: var(--burgundy);
+  color: var(--green);
   line-height: 0;
   margin-top: 0.1rem;
 }
@@ -3953,7 +4106,7 @@ section[id],
 
 .cost-calc-title {
   margin: 0 0 0.45rem;
-  color: var(--burgundy);
+  color: var(--green);
   font-size: 1.35rem;
   line-height: 1.15;
 }
@@ -4052,7 +4205,7 @@ section[id],
   width: 1.25rem;
   height: 1.25rem;
   margin-right: 0.15rem;
-  color: var(--burgundy);
+  color: var(--green);
   transition: transform 0.22s ease;
 }
 
@@ -4095,12 +4248,12 @@ section[id],
 .cost-calc-dd-menu [role="option"]:hover,
 .cost-calc-dd-menu [role="option"]:focus-visible {
   background: rgba(198, 163, 90, 0.18);
-  color: var(--burgundy);
+  color: var(--green);
 }
 
 .cost-calc-dd-menu [role="option"].is-selected {
   background: rgba(106, 27, 27, 0.08);
-  color: var(--burgundy);
+  color: var(--green);
   font-weight: 650;
 }
 
@@ -4112,7 +4265,7 @@ section[id],
 }
 
 .cost-calc-summary strong {
-  color: var(--burgundy);
+  color: var(--green);
 }
 
 .cost-calc-rows {
@@ -4156,7 +4309,7 @@ section[id],
 
 .cost-calc-row-value {
   font-weight: 650;
-  color: var(--burgundy);
+  color: var(--green);
   white-space: nowrap;
   text-align: right;
 }
@@ -4176,7 +4329,7 @@ section[id],
   margin: 0 0 0.55rem;
   font-size: 0.9rem;
   font-weight: 650;
-  color: var(--burgundy);
+  color: var(--green);
 }
 
 .cost-calc-wa-btn {
@@ -4235,7 +4388,7 @@ section[id],
   border: 0;
   border-radius: 50%;
   background: transparent;
-  color: var(--burgundy);
+  color: var(--green);
   font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
@@ -4257,7 +4410,7 @@ section[id],
 
 .plot-dialog-title {
   margin: 0 0 1rem;
-  color: var(--burgundy);
+  color: var(--green);
   font-size: 2rem;
 }
 
@@ -4296,7 +4449,7 @@ section[id],
   padding: 0.25rem 0.65rem;
   border-radius: 999px;
   background: #f3e2c4;
-  color: var(--burgundy);
+  color: var(--green);
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: capitalize;
@@ -4312,7 +4465,7 @@ section[id],
 
 .plot-dialog-price strong {
   display: block;
-  color: var(--burgundy);
+  color: var(--green);
   font-size: 1.15rem;
   font-weight: 600;
   margin-top: 0.15rem;
@@ -4335,7 +4488,7 @@ section[id],
   width: 100%;
   padding: 0.85rem 1rem;
   border-radius: 999px;
-  background: var(--burgundy);
+  background: var(--green);
   color: #fff;
   text-decoration: none;
   font-weight: 550;
@@ -4456,7 +4609,7 @@ section[id],
 
   .plots-wa-btn {
     width: 100%;
-    background: var(--burgundy);
+    background: var(--green);
     border-color: transparent;
     font-size: 0.92rem;
     padding: 0.95rem 1rem;

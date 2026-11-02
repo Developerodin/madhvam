@@ -22,7 +22,7 @@ export const SITE = {
   corporateAddress:
     "G1, South Extension, Block G, South Extension II, New Delhi, Delhi 110049",
   logoLight: "/assets/hero.png",
-  logoDark: "/assets/madhavam-logo-burgundy.webp",
+  logoDark: "/assets/hero.png",
   ogImage: "https://madhavam.ewdevelopers.com/assets/hero-poster.webp",
 } as const;
 

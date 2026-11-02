@@ -120,6 +120,77 @@ export async function getPlotsPayload(): Promise<PlotsPayload> {
   });
 }
 
+/**
+ * Public homepage /api payload: omit rate & amount fields so the live site
+ * cannot bind them. Mongo + admin keep the full getPlotsPayload().
+ */
+export function toPublicPlotsPayload(
+  payload: PlotsPayload | Record<string, unknown>,
+): PlotsPayload {
+  const source = toPlain(payload) as Record<string, unknown>;
+  const {
+    pricing: rawPricing,
+    bands: rawBands,
+    costCalculator: rawCalc,
+    plots: rawPlots,
+    ...rest
+  } = source;
+
+  let pricing: Record<string, unknown> | undefined;
+  if (rawPricing && typeof rawPricing === "object") {
+    const { ratePerSqYd: _r, rateNote: _n, ...pricingRest } = rawPricing as Record<
+      string,
+      unknown
+    >;
+    pricing = pricingRest;
+  }
+
+  const bands = Array.isArray(rawBands)
+    ? rawBands.map((band) => {
+        if (!band || typeof band !== "object") return band;
+        const { tentativeRatePerSqYd: _t, ...bandRest } = band as Record<
+          string,
+          unknown
+        >;
+        return bandRest;
+      })
+    : rawBands;
+
+  let costCalculator: Record<string, unknown> | undefined;
+  if (rawCalc && typeof rawCalc === "object") {
+    const { landRatePerSqYd: _l, ...calcRest } = rawCalc as Record<
+      string,
+      unknown
+    >;
+    costCalculator = calcRest;
+  }
+
+  const plots = Array.isArray(rawPlots)
+    ? rawPlots.map((plot) => {
+        if (!plot || typeof plot !== "object") return plot;
+        const {
+          ratePerSqYd: _rate,
+          amountMonth: _amount,
+          totalPrice: _total,
+          ...plotRest
+        } = plot as Record<string, unknown>;
+        return plotRest;
+      })
+    : [];
+
+  return toPlain({
+    ...rest,
+    ...(pricing ? { pricing } : {}),
+    ...(bands !== undefined ? { bands } : {}),
+    ...(costCalculator ? { costCalculator } : {}),
+    plots,
+  }) as PlotsPayload;
+}
+
+export async function getPublicPlotsPayload(): Promise<PlotsPayload> {
+  return toPublicPlotsPayload(await getPlotsPayload());
+}
+
 export async function getGalleryPayload(): Promise<{
   slides: GallerySlide[];
   filters: { id: string; label: string; icon: string }[];
@@ -190,7 +261,7 @@ export async function getPageSectionsPayload() {
 export async function getPublicBundle() {
   const [site, plots, gallery, faqs, documents, sections] = await Promise.all([
     getSiteSettings(),
-    getPlotsPayload(),
+    getPublicPlotsPayload(),
     getGalleryPayload(),
     getFaqsPayload(),
     getDocumentsPayload(),

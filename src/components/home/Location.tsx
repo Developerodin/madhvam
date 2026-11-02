@@ -298,7 +298,7 @@ export function Location() {
             <li className="loc-item loc-item-left">
               <span className="loc-ico loc-ico-regional" aria-hidden="true" />
               <span className="loc-copy">
-                <strong>Namo Bharat</strong>
+                <strong>RRTS Metro (Namo Bharat)</strong>
                 <span>5 Minutes</span>
               </span>
               <span className="loc-line" aria-hidden="true" />
@@ -358,6 +358,10 @@ export function Location() {
               <span className="loc-ico loc-ico-cricket" aria-hidden="true" />
             </li>
           </ul>
+        </Reveal>
+        <Reveal as="p" className="location-extras">
+          Location Advantages: Hospitals · Schools &amp; Colleges · Commercial
+          complex with dedicated multiplexes
         </Reveal>
       </div>
 

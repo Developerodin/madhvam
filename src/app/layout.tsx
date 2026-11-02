@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@/styles/style.css";
 import { SITE } from "@/lib/site";
@@ -58,8 +57,8 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [{ url: "/assets/madhavam-logo-burgundy.webp", type: "image/webp" }],
-    apple: [{ url: "/assets/madhavam-logo-burgundy.webp" }],
+    icon: [{ url: "/assets/hero.png", type: "image/png" }],
+    apple: [{ url: "/assets/hero.png" }],
   },
 };
 
@@ -87,13 +86,16 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Noto+Serif+Devanagari:wght@500;600&family=Outfit:wght@300;400;500&display=swap"
           rel="stylesheet"
         />
-        <Script id="microsoft-clarity" strategy="beforeInteractive">
-          {`(function(c,l,a,r,i,t,y){
-c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-})(window, document, "clarity", "script", "z5r5ipm0kz");`}
-        </Script>
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `(function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "z5r5ipm0kz");`,
+          }}
+        />
       </head>
       <body>{children}</body>
     </html>

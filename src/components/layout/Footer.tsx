@@ -12,18 +12,25 @@ export function Footer({ topHref = "#top", site }: FooterProps) {
       <div className="footer-main">
         <div className="footer-brand">
           <Link className="footer-logo" href="/#top">
-            <picture>
-              <img
-                src={site.logoLight}
-                alt="Radhe Radhe Madhavam"
-                width={1547}
-                height={612}
-              />
-            </picture>
+            <img
+              src={site.logoLight}
+              alt="Radhe Radhe Madhavam"
+              width={1547}
+              height={612}
+            />
           </Link>
         </div>
 
-        <div className="footer-vrule" aria-hidden="true" />
+        <div className="footer-avatar" aria-hidden="true">
+          <img
+            src="/assets/krinajiavatargolder.webp"
+            alt=""
+            width={1268}
+            height={1241}
+          />
+        </div>
+
+        <div className="footer-vrule footer-vrule--after-avatar" aria-hidden="true" />
 
         <div className="footer-contacts">
           <h2 className="footer-contact-title">Contact Information</h2>
