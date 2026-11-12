@@ -91,6 +91,10 @@ export function Plots({ plotsData = MADHAVAM_PLOTS }: PlotsProps) {
                 80–89 · ~103 yd²
               </li>
               <li>
+                <span className="plots-dot" style={{ background: "#3E8A7A" }} aria-hidden="true" />
+                74–75 · Club (not for sale)
+              </li>
+              <li>
                 <span className="plots-dot" style={{ background: "#F09EBC" }} aria-hidden="true" />
                 Commercial
               </li>
@@ -258,8 +262,8 @@ export function Plots({ plotsData = MADHAVAM_PLOTS }: PlotsProps) {
             <p>
               Plot areas and dimensions from the project plot list. Map shows 87
               residential plots plus commercial; list id 12A is shown on the plan.
-              Numbers 74–75 appear in the list but not on the brochure site-plan
-              legend. Mortgage marks follow the project plot list.
+              Plots 74–75 are Club Madhavam on the site plan. Mortgage marks
+              follow the project plot list.
             </p>
           </div>
         </div>
@@ -282,7 +286,7 @@ export function Plots({ plotsData = MADHAVAM_PLOTS }: PlotsProps) {
         <p>
           Final prices and availability are confirmed on enquiry and subject to
           change. Map shows 87 residential plots plus commercial (12A on plan;
-          74–75 in list only). Mortgage marks follow the plot list.
+          74–75 are Club Madhavam). Mortgage marks follow the plot list.
         </p>
       </div>
 

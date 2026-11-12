@@ -869,6 +869,11 @@
   color: #6941c6;
 }
 
+.admin-badge--club {
+  background: #e6f4f1;
+  color: #0f6b5c;
+}
+
 /* —— Enquiries —— */
 
 .admin-enquiry-list {

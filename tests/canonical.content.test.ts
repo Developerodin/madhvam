@@ -26,15 +26,23 @@ describe("Canonical content after seed", () => {
 
   it("has 87 residential plots and seeded tentative rate only", async () => {
     const payload = await getPlotsPayload();
-    const plots = payload.plots as { number: unknown; ratePerSqYd?: number }[];
-    expect(plots.length).toBe(CANONICAL.residentialPlotCount);
+    const plots = payload.plots as {
+      number: unknown;
+      ratePerSqYd?: number | null;
+      status?: string;
+      bandKey?: string;
+    }[];
+    const residential = plots.filter(
+      (plot) => plot.bandKey !== "74-75" && plot.status !== "Club",
+    );
+    expect(residential.length).toBe(CANONICAL.residentialPlotCount);
 
     const pricing = payload.pricing as { ratePerSqYd: number; priceLabel: string };
     expect(pricing.ratePerSqYd).toBe(CANONICAL.tentativeRatePerSqYd);
     expect(pricing.priceLabel).toBe("Tentative");
 
     // No invented absolute price list: totals stay null unless seeded
-    for (const plot of plots) {
+    for (const plot of residential) {
       expect(plot.ratePerSqYd).toBe(CANONICAL.tentativeRatePerSqYd);
     }
   });

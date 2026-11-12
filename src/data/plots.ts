@@ -1,5 +1,5 @@
 export const MADHAVAM_PLOTS = {
-  "updated": "2026-10-22",
+  "updated": "2026-11-12",
   "pricing": {
     "ratePerSqYd": 31.5,
     "currency": "INR",
@@ -14,20 +14,18 @@ export const MADHAVAM_PLOTS = {
   "notes": [
     "Indicative / tentative figures only. Final prices, charges and availability are subject to change without prior notice.",
     "Plot sizes, dimensions, tentative rate and amount/month from the project plot list.",
-    "Plot 12A appears in the plot list (shown as 12A on the map). Numbers 74 and 75 exist in the list but are not on the brochure site-plan legend.",
+    "Plot 12A appears in the plot list (shown as 12A on the map). Plots 74 and 75 are Club Madhavam on the site plan (not saleable residential plots).",
     "Plots marked Mortgage are listed as “plots being sent for mortgage” in the project plot list.",
     "Corner plots may differ in size."
   ],
-  "unusedNumbers": [
-    74,
-    75
-  ],
+  "unusedNumbers": [],
   "bandColors": {
     "1-27": "#E17B43",
     "28-36": "#6781B8",
     "37-60": "#E6DB29",
     "61-71": "#BC93BF",
     "72-73": "#C74D90",
+    "74-75": "#3E8A7A",
     "76-79": "#5FA86B",
     "80-89": "#64BEDF",
     "commercial": "#F09EBC"
@@ -241,7 +239,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 26.4,
+        "y": 754.63,
         "w": 57.6,
         "h": 26.57
       },
@@ -262,7 +260,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 54.41,
+        "y": 726.62,
         "w": 57.6,
         "h": 26.57
       },
@@ -283,7 +281,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 82.42,
+        "y": 698.61,
         "w": 57.6,
         "h": 26.57
       },
@@ -304,7 +302,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 110.43,
+        "y": 670.6,
         "w": 57.6,
         "h": 26.57
       },
@@ -325,7 +323,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 138.44,
+        "y": 642.6,
         "w": 57.6,
         "h": 26.57
       },
@@ -346,7 +344,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 166.44,
+        "y": 614.59,
         "w": 57.6,
         "h": 26.57
       },
@@ -367,7 +365,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 194.45,
+        "y": 586.58,
         "w": 57.6,
         "h": 26.57
       },
@@ -388,7 +386,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 222.46,
+        "y": 558.57,
         "w": 57.6,
         "h": 26.57
       },
@@ -409,7 +407,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 250.47,
+        "y": 530.56,
         "w": 57.6,
         "h": 26.57
       },
@@ -430,7 +428,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 278.48,
+        "y": 502.55,
         "w": 57.6,
         "h": 26.57
       },
@@ -451,7 +449,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 306.49,
+        "y": 474.54,
         "w": 57.6,
         "h": 26.57
       },
@@ -474,7 +472,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 334.5,
+        "y": 446.53,
         "w": 57.6,
         "h": 26.57
       },
@@ -495,7 +493,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 362.51,
+        "y": 418.52,
         "w": 57.6,
         "h": 26.57
       },
@@ -539,7 +537,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 418.52,
+        "y": 362.51,
         "w": 57.6,
         "h": 26.57
       },
@@ -560,7 +558,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 446.53,
+        "y": 334.5,
         "w": 57.6,
         "h": 26.57
       },
@@ -581,7 +579,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 474.54,
+        "y": 306.49,
         "w": 57.6,
         "h": 26.57
       },
@@ -602,7 +600,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 502.55,
+        "y": 278.48,
         "w": 57.6,
         "h": 26.57
       },
@@ -623,7 +621,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 530.56,
+        "y": 250.47,
         "w": 57.6,
         "h": 26.57
       },
@@ -644,7 +642,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 558.57,
+        "y": 222.46,
         "w": 57.6,
         "h": 26.57
       },
@@ -665,7 +663,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 586.58,
+        "y": 194.45,
         "w": 57.6,
         "h": 26.57
       },
@@ -686,7 +684,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 614.59,
+        "y": 166.44,
         "w": 57.6,
         "h": 26.57
       },
@@ -707,7 +705,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 642.6,
+        "y": 138.44,
         "w": 57.6,
         "h": 26.57
       },
@@ -728,7 +726,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 670.6,
+        "y": 110.43,
         "w": 57.6,
         "h": 26.57
       },
@@ -749,7 +747,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 698.61,
+        "y": 82.42,
         "w": 57.6,
         "h": 26.57
       },
@@ -770,7 +768,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 726.62,
+        "y": 54.41,
         "w": 57.6,
         "h": 26.57
       },
@@ -794,7 +792,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "1-27",
       "rect": {
         "x": 8.4,
-        "y": 754.63,
+        "y": 26.4,
         "w": 57.6,
         "h": 26.57
       },
@@ -1282,7 +1280,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "37-60",
       "rect": {
         "x": 175.2,
-        "y": 103.2,
+        "y": 490.62,
         "w": 64.8,
         "h": 33.78
       },
@@ -1303,7 +1301,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "37-60",
       "rect": {
         "x": 175.2,
-        "y": 138.42,
+        "y": 455.4,
         "w": 64.8,
         "h": 33.78
       },
@@ -1324,7 +1322,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "37-60",
       "rect": {
         "x": 175.2,
-        "y": 173.64,
+        "y": 420.18,
         "w": 64.8,
         "h": 33.78
       },
@@ -1345,7 +1343,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "37-60",
       "rect": {
         "x": 175.2,
-        "y": 208.86,
+        "y": 384.96,
         "w": 64.8,
         "h": 33.78
       },
@@ -1366,7 +1364,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "37-60",
       "rect": {
         "x": 175.2,
-        "y": 244.08,
+        "y": 349.74,
         "w": 64.8,
         "h": 33.78
       },
@@ -1387,7 +1385,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "37-60",
       "rect": {
         "x": 175.2,
-        "y": 279.3,
+        "y": 314.52,
         "w": 64.8,
         "h": 33.78
       },
@@ -1408,7 +1406,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "37-60",
       "rect": {
         "x": 175.2,
-        "y": 314.52,
+        "y": 279.3,
         "w": 64.8,
         "h": 33.78
       },
@@ -1429,7 +1427,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "37-60",
       "rect": {
         "x": 175.2,
-        "y": 349.74,
+        "y": 244.08,
         "w": 64.8,
         "h": 33.78
       },
@@ -1450,7 +1448,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "37-60",
       "rect": {
         "x": 175.2,
-        "y": 384.96,
+        "y": 208.86,
         "w": 64.8,
         "h": 33.78
       },
@@ -1471,7 +1469,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "37-60",
       "rect": {
         "x": 175.2,
-        "y": 420.18,
+        "y": 173.64,
         "w": 64.8,
         "h": 33.78
       },
@@ -1492,7 +1490,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "37-60",
       "rect": {
         "x": 175.2,
-        "y": 455.4,
+        "y": 138.42,
         "w": 64.8,
         "h": 33.78
       },
@@ -1515,7 +1513,7 @@ export const MADHAVAM_PLOTS = {
       "bandKey": "37-60",
       "rect": {
         "x": 175.2,
-        "y": 490.62,
+        "y": 103.2,
         "w": 64.8,
         "h": 33.78
       },
@@ -1800,8 +1798,8 @@ export const MADHAVAM_PLOTS = {
       "rect": {
         "x": 329.2,
         "y": 99.6,
-        "w": 73.2,
-        "h": 35.88
+        "w": 35.88,
+        "h": 73.2
       },
       "dimensions": "8.793 X 16.726",
       "amountMonth": 5539.27,
@@ -1822,14 +1820,63 @@ export const MADHAVAM_PLOTS = {
       "status": "Available",
       "bandKey": "72-73",
       "rect": {
-        "x": 329.2,
-        "y": 136.92,
-        "w": 73.2,
-        "h": 35.88
+        "x": 366.52,
+        "y": 99.6,
+        "w": 35.88,
+        "h": 73.2
       },
       "dimensions": "8.793 X 16.726",
       "amountMonth": 5539.27,
       "mortgage": true
+    },
+    {
+      "number": 74,
+      "sizeSqYd": 111.65,
+      "sizeSqM": 93.39,
+      "sizeSqFt": 1005,
+      "facing": "South",
+      "tags": [
+        "club",
+        "corner"
+      ],
+      "ratePerSqYd": null,
+      "totalPrice": null,
+      "status": "Club",
+      "bandKey": "74-75",
+      "rect": {
+        "x": 336.1,
+        "y": 542.4,
+        "w": 33.08,
+        "h": 55.08
+      },
+      "dimensions": "6.970 X 13.400",
+      "amountMonth": null,
+      "mortgage": false,
+      "clickable": true
+    },
+    {
+      "number": 75,
+      "sizeSqYd": 111.65,
+      "sizeSqM": 93.39,
+      "sizeSqFt": 1005,
+      "facing": "South",
+      "tags": [
+        "club"
+      ],
+      "ratePerSqYd": null,
+      "totalPrice": null,
+      "status": "Club",
+      "bandKey": "74-75",
+      "rect": {
+        "x": 301.52,
+        "y": 542.4,
+        "w": 33.08,
+        "h": 55.08
+      },
+      "dimensions": "6.970 X 13.400",
+      "amountMonth": null,
+      "mortgage": false,
+      "clickable": true
     },
     {
       "number": 76,
@@ -1845,7 +1892,7 @@ export const MADHAVAM_PLOTS = {
       "status": "Available",
       "bandKey": "76-79",
       "rect": {
-        "x": 163.2,
+        "x": 266.94,
         "y": 542.4,
         "w": 33.08,
         "h": 55.08
@@ -1866,7 +1913,7 @@ export const MADHAVAM_PLOTS = {
       "status": "Available",
       "bandKey": "76-79",
       "rect": {
-        "x": 197.78,
+        "x": 232.36,
         "y": 542.4,
         "w": 33.08,
         "h": 55.08
@@ -1887,7 +1934,7 @@ export const MADHAVAM_PLOTS = {
       "status": "Available",
       "bandKey": "76-79",
       "rect": {
-        "x": 232.36,
+        "x": 197.78,
         "y": 542.4,
         "w": 33.08,
         "h": 55.08
@@ -1910,7 +1957,7 @@ export const MADHAVAM_PLOTS = {
       "status": "Available",
       "bandKey": "76-79",
       "rect": {
-        "x": 266.94,
+        "x": 163.2,
         "y": 542.4,
         "w": 33.08,
         "h": 55.08

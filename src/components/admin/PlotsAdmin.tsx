@@ -48,7 +48,7 @@ type Band = {
   count?: number;
 };
 
-const STATUS_OPTIONS = ["Available", "Hold", "Sold", "Mortgage"] as const;
+const STATUS_OPTIONS = ["Available", "Hold", "Sold", "Mortgage", "Club"] as const;
 
 function numOrEmpty(v: unknown): string {
   if (v == null || v === "") return "";

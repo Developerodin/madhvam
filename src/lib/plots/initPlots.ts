@@ -30,6 +30,12 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
       return n < 10 ? "0" + n : String(n);
     }
 
+    function isClubPlot(plot) {
+      if (!plot) return false;
+      return plot.status === "Club" || plot.bandKey === "74-75" ||
+        (plot.tags || []).indexOf("club") !== -1;
+    }
+
     function plotLabel(plot) {
       if (!plot) return "—";
       if (plot.displayNumber) return String(plot.displayNumber);
@@ -48,7 +54,8 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
     function statusClass(status, plot) {
       var s = (status || "Available").toLowerCase();
       var classes = [];
-      if (s === "sold") classes.push("is-sold");
+      if (isClubPlot(plot) || s === "club") classes.push("is-club");
+      else if (s === "sold") classes.push("is-sold");
       else if (s === "booked") classes.push("is-booked");
       else classes.push("is-available");
       if (plot && plot.mortgage) classes.push("is-mortgage");
@@ -69,7 +76,12 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
         }
       });
       var totalEl = section.querySelector(".plots-total strong");
-      if (totalEl) totalEl.textContent = String((data.plots || []).length);
+      if (totalEl) {
+        var residential = (data.plots || []).filter(function (plot) {
+          return plot.bandKey !== "74-75" && plot.status !== "Club";
+        });
+        totalEl.textContent = String(residential.length);
+      }
     }
 
     function el(name, attrs, text) {
@@ -182,26 +194,29 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
       (data.plots || []).forEach(function (plot) {
         var r = plot.rect || {};
         var status = plot.status || "Available";
+        var club = isClubPlot(plot);
         var labelText = plotLabel(plot);
         var cx = r.x + r.w / 2;
         var cy = r.y + r.h / 2;
         var badgeR = Math.max(5.5, Math.min(9, Math.min(r.w, r.h) * 0.32));
         var fontSize = Math.max(5.5, Math.min(10, badgeR * (labelText.length > 2 ? 0.85 : 1.05)));
         var g = el("g", {
-          class: "plot " + statusClass(status, plot),
+          class: "plot " + statusClass(status, plot) + (club ? " plot-club" : ""),
           role: "button",
           tabindex: "0",
           "data-plot": String(plot.number),
           "data-band": plot.bandKey || "",
-          "aria-label": [
-            "Plot " + labelText,
-            plot.sizeSqYd + " sq yd",
-            plot.dimensions ? plot.dimensions : "",
-            plot.facing ? plot.facing + " facing" : "",
-            plot.mortgage ? "Mortgage" : "",
-            (plot.tags || []).join(", "),
-            status
-          ].filter(Boolean).join(", ")
+          "aria-label": club
+            ? ("Plot " + labelText + ", Club Madhavam, not for sale")
+            : [
+              "Plot " + labelText,
+              plot.sizeSqYd + " sq yd",
+              plot.dimensions ? plot.dimensions : "",
+              plot.facing ? plot.facing + " facing" : "",
+              plot.mortgage ? "Mortgage" : "",
+              (plot.tags || []).join(", "),
+              status
+            ].filter(Boolean).join(", ")
         });
         var tile = el("rect", {
           x: r.x,
@@ -212,6 +227,23 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
         });
         tile.setAttribute("fill", bandFill(plot.bandKey));
         g.appendChild(tile);
+        if (club) {
+          var inset = 2.2;
+          g.appendChild(el("line", {
+            class: "plot-club-x",
+            x1: r.x + inset,
+            y1: r.y + inset,
+            x2: r.x + r.w - inset,
+            y2: r.y + r.h - inset
+          }));
+          g.appendChild(el("line", {
+            class: "plot-club-x",
+            x1: r.x + r.w - inset,
+            y1: r.y + inset,
+            x2: r.x + inset,
+            y2: r.y + r.h - inset
+          }));
+        }
         if (plot.mortgage) {
           g.appendChild(el("rect", {
             class: "plot-mortgage-mark",
@@ -225,23 +257,38 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
         g.appendChild(el("circle", {
           class: "plot-badge",
           cx: cx,
-          cy: cy,
+          cy: club ? cy - Math.min(6, r.h * 0.12) : cy,
           r: badgeR
         }));
         var label = el("text", {
           x: cx,
-          y: cy,
+          y: club ? cy - Math.min(6, r.h * 0.12) : cy,
           "text-anchor": "middle",
           "dominant-baseline": "central"
         }, labelText);
         label.setAttribute("font-size", String(fontSize));
         g.appendChild(label);
+        if (club) {
+          var clubLabel = el("text", {
+            class: "plot-club-caption",
+            x: cx,
+            y: cy + Math.min(10, r.h * 0.22),
+            "text-anchor": "middle",
+            "dominant-baseline": "central"
+          }, "CLUB");
+          clubLabel.setAttribute("font-size", String(Math.max(4.5, Math.min(7, r.w * 0.22))));
+          g.appendChild(clubLabel);
+        }
         layer.appendChild(g);
       });
       svg.appendChild(layer);
     }
 
     function waUrlForPlot(plot) {
+      if (isClubPlot(plot)) {
+        var clubMsg = "Hi, I'd like details on Club Madhavam (plots 74–75, not for sale) at Madhavam, Raj Nagar Extension.";
+        return WA_BASE + "?text=" + encodeURIComponent(clubMsg);
+      }
       var name = plot.isCommercial ? "the commercial plot" : ("Plot " + plotLabel(plot));
       var sizeBit = plot.sizeSqYd != null ? " (" + plot.sizeSqYd + " sq yd)" : "";
       var msg = "Hi, I'd like details on " + name + sizeBit +
@@ -258,14 +305,20 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
       var statusEl = document.getElementById("plotDialogStatus");
       var wa = document.getElementById("plotDialogWa");
       var label = plotLabel(plot);
+      var club = isClubPlot(plot);
 
       if (title) {
-        title.textContent = plot.isCommercial ? "Commercial Plot" : ("Plot " + label);
+        title.textContent = club
+          ? ("Club Madhavam · Plot " + label)
+          : plot.isCommercial ? "Commercial Plot" : ("Plot " + label);
       }
       if (meta) {
         var rows = [];
         if (!plot.isCommercial) {
           rows.push("<dt>Plot No</dt><dd>" + label + "</dd>");
+        }
+        if (club) {
+          rows.push("<dt>Use</dt><dd>Club Madhavam — not a saleable residential plot</dd>");
         }
         if (plot.dimensions) {
           rows.push("<dt>Size (L × B)</dt><dd>" + plot.dimensions + " <span>(m)</span></dd>");
@@ -275,10 +328,10 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
         if (plot.sizeSqFt != null) {
           rows.push("<dt>Area (sq ft)</dt><dd>" + formatArea(plot.sizeSqFt, 0) + "</dd>");
         }
-        if (!plot.isCommercial) {
+        if (!plot.isCommercial && !club) {
           rows.push("<dt>Facing</dt><dd>" + (plot.facing || "Confirm at enquiry") + "</dd>");
         }
-        if (plot.bandKey && plot.bandKey !== "commercial") {
+        if (plot.bandKey && plot.bandKey !== "commercial" && !club) {
           rows.push("<dt>Size band</dt><dd>" + plot.bandKey.replace("-", " – ") + "</dd>");
         }
         if (plot.mortgage) {
@@ -288,6 +341,7 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
       }
       if (tags) {
         var tagList = (plot.tags || []).slice();
+        if (club) tagList = ["not for sale", "club house"].concat(tagList);
         if (plot.isCommercial) tagList = ["commercial"].concat(tagList);
         if (plot.displayNumber) tagList = ["list id " + plot.displayNumber].concat(tagList);
         tags.innerHTML = tagList.map(function (tag) {
@@ -300,16 +354,20 @@ export function initPlots(root: HTMLElement, plotsData: any): () => void {
         price.hidden = true;
       }
       if (statusEl) {
-        var statusText = plot.status || "Available";
-        if (plot.mortgage) statusText += " · Mortgage";
+        var statusText = club
+          ? "Not for sale · Club Madhavam"
+          : (plot.status || "Available");
+        if (!club && plot.mortgage) statusText += " · Mortgage";
         statusEl.textContent = "Status: " + statusText;
-        statusEl.setAttribute("data-status", plot.status || "Available");
+        statusEl.setAttribute("data-status", club ? "Club" : (plot.status || "Available"));
       }
       if (wa) {
         wa.href = waUrlForPlot(plot);
-        wa.textContent = plot.isCommercial
-          ? "Enquire about commercial plot"
-          : "Enquire about this plot";
+        wa.textContent = club
+          ? "Ask about Club Madhavam"
+          : plot.isCommercial
+            ? "Enquire about commercial plot"
+            : "Enquire about this plot";
       }
 
       section.querySelectorAll(".plot.is-active").forEach(function (node) {

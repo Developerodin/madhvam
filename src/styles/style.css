@@ -3656,6 +3656,29 @@ section[id],
   stroke-width: 1.5;
 }
 
+.plots-map-svg .plot.is-club > rect:first-of-type {
+  fill: #3e8a7a;
+  stroke: #0f4f45;
+  stroke-width: 1.5;
+  stroke-dasharray: 3 2;
+}
+
+.plots-map-svg .plot .plot-club-x {
+  stroke: rgba(12, 48, 42, 0.78);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.plots-map-svg .plot .plot-club-caption {
+  fill: #0f4f45;
+  font-family: var(--sans);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  pointer-events: none;
+  user-select: none;
+}
+
 .plots-map-svg .plot.is-mortgage > rect:first-of-type {
   stroke: #1f3a5f;
   stroke-width: 1.45;
@@ -3924,6 +3947,13 @@ section[id],
   border-color: var(--green);
   background: #f8efe3;
   outline: none;
+}
+
+.plots-chip.is-club {
+  background: #e6f4f1;
+  color: #0f4f45;
+  border-color: #9bc9bf;
+  text-decoration: line-through;
 }
 
 .plots-chip.is-sold {
@@ -4480,6 +4510,7 @@ section[id],
 .plot-dialog-status[data-status="Available"] { color: #2f7a49; }
 .plot-dialog-status[data-status="Booked"] { color: #a67c12; }
 .plot-dialog-status[data-status="Sold"] { color: #8b1e1e; }
+.plot-dialog-status[data-status="Club"] { color: #0f4f45; }
 
 .plot-dialog-wa {
   display: flex;
