@@ -14,6 +14,7 @@ const NAV = [
   { href: "/admin/documents", label: "Documents" },
   { href: "/admin/sections", label: "Sections" },
   { href: "/admin/enquiries", label: "Enquiries" },
+  { href: "/admin/form-responses", label: "Form responses" },
 ] as const;
 
 function isActive(pathname: string, href: string, exact?: boolean) {

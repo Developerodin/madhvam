@@ -7,3 +7,4 @@ export { Faq } from "@/models/Faq";
 export { DocumentItem } from "@/models/Document";
 export { PageSection } from "@/models/PageSection";
 export { Enquiry } from "@/models/Enquiry";
+export { BrochureResponse } from "@/models/BrochureResponse";
