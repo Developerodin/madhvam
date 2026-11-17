@@ -3,12 +3,14 @@
 import { useMemo, useState } from "react";
 import { adminFetch } from "@/lib/admin/fetch";
 import { Card, PageHeader, StatusBadge } from "@/components/admin/ui";
+import { formatDateOfBirth } from "@/lib/dateOfBirth";
 
 type ResponseRow = {
   id: string;
   name: string;
   phone: string;
   email?: string;
+  dateOfBirth?: string;
   message?: string;
   status: string;
   createdAt?: string;
@@ -100,6 +102,14 @@ export function FormResponsesAdmin({ initial }: { initial: ResponseRow[] }) {
                       ) : (
                         "—"
                       )}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Date of birth</dt>
+                    <dd>
+                      {row.dateOfBirth
+                        ? formatDateOfBirth(row.dateOfBirth)
+                        : "—"}
                     </dd>
                   </div>
                 </dl>

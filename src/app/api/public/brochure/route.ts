@@ -2,6 +2,7 @@ import { z } from "zod";
 import { connectDb } from "@/lib/db";
 import { BrochureResponse } from "@/models";
 import { jsonError, jsonOk, parseJson } from "@/lib/api";
+import { dateOfBirthError } from "@/lib/dateOfBirth";
 import { clientIp, rateLimit } from "@/lib/security/rateLimit";
 
 const BrochureSchema = z.object({
@@ -11,6 +12,7 @@ const BrochureSchema = z.object({
     .union([z.string().email(), z.literal("")])
     .optional()
     .default(""),
+  dateOfBirth: z.string().trim().optional().default(""),
   message: z.string().optional().default(""),
   /** Honeypot — must stay empty */
   company: z.string().optional().default(""),
@@ -39,12 +41,18 @@ export async function POST(request: Request) {
     return jsonError("Enter a phone number with at least 10 digits", 400);
   }
 
+  const dobError = dateOfBirthError(parsed.data.dateOfBirth);
+  if (dobError) {
+    return jsonError(dobError, 400);
+  }
+
   try {
     await connectDb();
     const response = await BrochureResponse.create({
       name: parsed.data.name,
       phone: parsed.data.phone,
       email: parsed.data.email || "",
+      dateOfBirth: parsed.data.dateOfBirth || "",
       message: parsed.data.message || "",
       status: "new",
     });

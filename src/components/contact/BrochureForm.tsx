@@ -1,6 +1,12 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import {
+  DATE_OF_BIRTH_MIN,
+  dateOfBirthError,
+  latestAdultDob,
+  todayInIndia,
+} from "@/lib/dateOfBirth";
 
 const BROCHURE_PDF_URL = "/assets/documents/Madhavam-Online-Brochure.pdf";
 const BROCHURE_DOWNLOAD_NAME = "Madhavam Online_Brochure.pdf";
@@ -19,12 +25,15 @@ export function BrochureForm() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
   const [message, setMessage] = useState("");
   const [validated, setValidated] = useState(false);
   const [success, setSuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
   const [phoneValidity, setPhoneValidity] = useState("");
+  const [dobValidity, setDobValidity] = useState("");
+  const adultDobMax = latestAdultDob(todayInIndia());
 
   const messageReady =
     name.trim().length > 1 && phone.replace(/\D/g, "").length >= 10;
@@ -40,6 +49,11 @@ export function BrochureForm() {
 
     const phoneInput = form.elements.namedItem("phone") as HTMLInputElement;
     phoneInput.setCustomValidity(nextValidity);
+
+    const nextDobValidity = dateOfBirthError(dateOfBirth);
+    setDobValidity(nextDobValidity);
+    const dobInput = form.elements.namedItem("dateOfBirth") as HTMLInputElement;
+    dobInput.setCustomValidity(nextDobValidity);
 
     if (!form.checkValidity()) {
       setValidated(true);
@@ -58,6 +72,7 @@ export function BrochureForm() {
           name: name.trim(),
           phone: phone.trim(),
           email: email.trim(),
+          dateOfBirth: dateOfBirth.trim(),
           message: message.trim(),
           company: "", // honeypot
         }),
@@ -191,6 +206,27 @@ export function BrochureForm() {
           onChange={(e) => setEmail(e.target.value)}
         />
         <p className="invalid">Please enter a valid email address.</p>
+      </div>
+      <div className="field">
+        <label htmlFor="brochureDateOfBirth">Date of birth</label>
+        <input
+          className="form-control"
+          id="brochureDateOfBirth"
+          name="dateOfBirth"
+          type="date"
+          autoComplete="bday"
+          min={DATE_OF_BIRTH_MIN}
+          max={adultDobMax}
+          value={dateOfBirth}
+          onChange={(e) => {
+            setDateOfBirth(e.target.value);
+            setDobValidity("");
+            e.target.setCustomValidity("");
+          }}
+        />
+        <p className="invalid">
+          {dobValidity || "You must be 18 or older."}
+        </p>
       </div>
       <div className="field" id="brochureMessageWrap" hidden={!messageReady}>
         <label htmlFor="brochureMessage">
